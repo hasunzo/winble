@@ -23,18 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()  // rest api 이므로 기본설정 사용안함. 기본설정 - 비인증시 로그인폼으로 리다이렉트
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .cors().configurationSource(corsConfigurationSource())
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
                     .csrf().disable()   // rest api 이므로 csrf 보안이 필요없다.
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)     // jwt token으로 인증하므로 세션은 생성안함
                 .and()
                     .authorizeRequests()
-                    .antMatchers("*").permitAll()
-                .and()
-                    .logout()
-                        .logoutSuccessUrl("/");
+                    .antMatchers("*").permitAll();
     }
 
 
