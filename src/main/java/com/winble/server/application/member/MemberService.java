@@ -1,5 +1,6 @@
 package com.winble.server.application.member;
 
+import com.winble.server.adapter.advice.exception.CMemberNotFoundException;
 import com.winble.server.application.response.ResponseService;
 import com.winble.server.domain.model.member.entity.Member;
 import com.winble.server.domain.model.member.repository.MemberRepository;
@@ -22,7 +23,8 @@ public class MemberService {
 
     // 특정 한 멤버를 조회하는 메소드
     public Member findMemberById(long memberId) {
-        return memberRepository.findById(memberId).orElse(null);
+        // Exception 발생시 CMemberNotFoundException 생성
+        return memberRepository.findById(memberId).orElseThrow(CMemberNotFoundException::new);
     }
 
     // 회원을 등록하는 메소드

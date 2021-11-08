@@ -14,6 +14,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -58,6 +59,17 @@ public class MemberControllerTests {
         Member member = memberController.findMemberById(1).getData();
         assertThat("테스트", is(member.getMemberNickName()));
         assertThat("testuser@naver.com", is(member.getMemberEmail()));
+    }
+
+    // 존재하지 않는 회원 Exception 처리 테스트
+    @Test
+    public void 존재하지_않는_회원을_조회한다() throws Exception {
+
+        ResultActions actions = this.mockMvc.perform(get("/v1/member/23324"));
+
+        actions.andDo(print())
+                .andExpect(jsonPath("$.code").value(-1000))
+                .andExpect(jsonPath("$.msg").value("존재하지 않는 회원입니다."));
     }
 
     // 회원 등록 테스트
