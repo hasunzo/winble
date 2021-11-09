@@ -28,10 +28,10 @@ public class MemberService {
     }
 
     // 회원을 등록하는 메소드
-    public Member save(String email, String nickname) {
+    public Member save(String email, String password) {
         Member member = Member.builder()
                 .memberEmail(email)
-                .memberNickName(nickname)
+                .password(password)
                 .build();
         return memberRepository.save(member);
     }
