@@ -1,6 +1,6 @@
 package com.winble.server.member;
 
-import com.winble.server.adapter.controller.MemberController;
+import com.winble.server.adapter.controller.member.MemberController;
 import com.winble.server.domain.model.member.entity.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,9 +41,10 @@ public class MemberControllerTests {
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .build();
 
-        actions = this.mockMvc.perform(post("/v1/member")
+        actions = this.mockMvc.perform(post("/v1/signup")
                 .param("email", "testuser@naver.com")
-                .param("nickname", "테스트"));
+                .param("nickName", "테스트")
+                .param("password", "1234"));
     }
 
     // 전체회원 조회 테스트
@@ -51,14 +52,6 @@ public class MemberControllerTests {
     public void 전체회원을_조회한다() {
         List<Member> members = memberController.findAllUser().getList();
         assertThat(1, is(members.size()));
-    }
-
-    // 특정회원 조회 테스트
-    @Test
-    public void 특정회원을_조회한다() {
-        Member member = memberController.findMemberById(1).getData();
-        assertThat("테스트", is(member.getMemberNickName()));
-        assertThat("testuser@naver.com", is(member.getMemberEmail()));
     }
 
     // 존재하지 않는 회원 Exception 처리 테스트
@@ -77,9 +70,6 @@ public class MemberControllerTests {
     public void 회원을_등록한다() throws Exception {
         actions.andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.memberId").value(1))
-                .andExpect(jsonPath("$.data.memberEmail").value("testuser@naver.com"))
-                .andExpect(jsonPath("$.data.memberNickName").value("테스트"))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.code").value(0))
                 .andExpect(jsonPath("$.msg").value("성공하였습니다."));

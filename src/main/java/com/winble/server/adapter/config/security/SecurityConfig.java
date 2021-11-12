@@ -46,8 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
                         .antMatchers("/*/signin", "/*/signup").permitAll()  // 로그인, 회원가입 -> 누구나 접근 가능
                         .antMatchers("/exception/**").permitAll()   // exception -> 누구나 접근 가능
-                    .antMatchers("/*/users").hasRole(Role.ADMIN.name())   // 모든 유저 정보 -> 관리자만 접근
-                    .anyRequest().hasAnyRole(Role.ADVERTISER.name(), Role.INFLUENCER.name())   // 그 외 나머지 요청은 모두 인증된 회원만 접근 가능
+                    .antMatchers("/*/members").hasRole(Role.ADMIN.name())   // 모든 유저 정보 -> 관리자만 접근
+                    .anyRequest().hasAnyRole(Role.ADVERTISER.name(), Role.INFLUENCER.name())   // 그 외 나머지 요청은 모두 인증된 회원(광고주, 인플루언서)만 접근 가능
                 .and()
                     .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣는다.
     }

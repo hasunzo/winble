@@ -1,8 +1,11 @@
 package com.winble.server.adapter.advice.exception;
 
+import com.winble.server.adapter.advice.exception.member.CEmailSigninFailedException;
+import com.winble.server.adapter.advice.exception.member.CMemberNotFoundException;
 import com.winble.server.application.response.ResponseService;
 import com.winble.server.domain.model.response.CommonResult;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 // Exception 발생시 ExceptionAdvice 에서 처리
+@Slf4j
 @RequiredArgsConstructor
 @RestControllerAdvice
 public class ExceptionAdvice {
@@ -30,4 +34,13 @@ public class ExceptionAdvice {
     protected CommonResult userNotFoundException(HttpServletRequest request, CMemberNotFoundException e) {
         return responseService.getFailResult(-1000, "존재하지 않는 회원입니다.");
     }
+
+    // 로그인 실패
+    @ExceptionHandler(CEmailSigninFailedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSigninFailedException e) {
+        return responseService.getFailResult(-1001, "계정이 존재하지 않거나 이메일 또는 비밀번호가 정확하지 않습니다.");
+    }
+
+
 }

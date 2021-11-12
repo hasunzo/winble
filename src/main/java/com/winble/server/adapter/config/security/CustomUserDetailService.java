@@ -1,11 +1,10 @@
 package com.winble.server.adapter.config.security;
 
-import com.winble.server.adapter.advice.exception.CMemberNotFoundException;
+import com.winble.server.adapter.advice.exception.member.CMemberNotFoundException;
 import com.winble.server.domain.model.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**

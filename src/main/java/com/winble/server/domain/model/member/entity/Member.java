@@ -7,11 +7,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Builder
 @Entity
@@ -31,16 +34,19 @@ public class Member implements UserDetails {    // SpringSecurity의 보안을 �
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @Column(length = 100)
-    private String password;
+    private String password;        // 회원비밀번호
 
     @Column(length = 30)
     private String memberName;      // 회원이름
+
+    @NotNull
+    private String nickName;        // 회원닉네임
 
     @Column(length = 20, unique = true)
     private String phoneNumber;     // 휴대폰번호
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role;              // 회원 권한
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date joinDt;   // 회원가입일시
@@ -64,7 +70,9 @@ public class Member implements UserDetails {    // SpringSecurity의 보안을 �
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<GrantedAuthority> set = new HashSet<>();
+        set.add(new SimpleGrantedAuthority(role.getKey()));
+        return set;
     }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

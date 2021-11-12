@@ -1,4 +1,4 @@
-package com.winble.server.adapter.advice.exception;
+package com.winble.server.adapter.advice.exception.member;
 
 public class CMemberNotFoundException extends RuntimeException {
 

@@ -12,5 +12,4 @@ spring:
     hibernate:
       ddl-auto: create-drop
   profiles:
-    include:
-      - oauth
+    include: oauth

@@ -26,7 +26,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("spring.jwt.secret")
+    @Value("${spring.jwt.secret}")
     private String secretKey;
 
     private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유효
@@ -77,6 +77,5 @@ public class JwtTokenProvider {
             return false;
         }
     }
-
 
 }
