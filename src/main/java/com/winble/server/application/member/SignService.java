@@ -1,6 +1,6 @@
 package com.winble.server.application.member;
 
-import com.winble.server.adapter.advice.exception.member.CEmailSigninFailedException;
+import com.winble.server.adapter.advice.exception.member.CEmailLoginFailedException;
 import com.winble.server.adapter.config.security.JwtTokenProvider;
 import com.winble.server.domain.model.member.entity.Member;
 import com.winble.server.domain.model.member.entity.Role;
@@ -19,12 +19,12 @@ public class SignService {
 
 
     // 자사 서비스 로그인 메소드
-    public String signin(String email, String password) {
+    public String login(String email, String password) {
         // email로 회원을 찾는다.
         // 아이디 혹은 비밀번호가 맞지 않다면 CEmailSigninFailedException이 발생한다.
-        Member member = memberRepository.findByMemberEmail(email).orElseThrow(CEmailSigninFailedException::new);
+        Member member = memberRepository.findByMemberEmail(email).orElseThrow(CEmailLoginFailedException::new);
         if (!passwordEncoder.matches(password, member.getPassword())) {
-            throw new CEmailSigninFailedException();
+            throw new CEmailLoginFailedException();
         }
 
         // 토큰을 발급한다.
@@ -32,7 +32,7 @@ public class SignService {
     }
 
     // 자사 서비스 회원가입
-    public void signup(String email, String password, String nickName) {
+    public void join(String email, String password, String nickName) {
         memberRepository.save(Member.builder()
                 .memberEmail(email)
                 .password(passwordEncoder.encode(password))

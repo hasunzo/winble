@@ -2,12 +2,17 @@ package com.winble.server.member;
 
 import com.winble.server.adapter.controller.member.MemberController;
 import com.winble.server.domain.model.member.entity.Member;
+import com.winble.server.domain.model.member.entity.Role;
+import com.winble.server.domain.model.member.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -30,51 +35,48 @@ public class MemberControllerTests {
     private WebApplicationContext context;
 
     @Autowired
-    private MemberController memberController;
+    private PasswordEncoder passwordEncoder;
 
-    private ResultActions actions;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @BeforeEach
     public void setUp() throws Exception {
+        // 테스트 한글 깨짐 방지를 위한 UTF-8 설정
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .build();
 
-        actions = this.mockMvc.perform(post("/v1/signup")
-                .param("email", "testuser@naver.com")
-                .param("nickName", "테스트")
-                .param("password", "1234"));
+        memberRepository.save(Member.builder()
+                .memberEmail("test@test.com")
+                .nickName("홍길동")
+                .password(passwordEncoder.encode("1234"))
+                .role(Role.INFLUENCER)
+                .build());
     }
 
-    // 전체회원 조회 테스트
+    // 전체 회원 조회 테스트
     @Test
-    public void 전체회원을_조회한다() {
-        List<Member> members = memberController.findAllUser().getList();
-        assertThat(1, is(members.size()));
-    }
-
-    // 존재하지 않는 회원 Exception 처리 테스트
-    @Test
-    public void 존재하지_않는_회원을_조회한다() throws Exception {
-
-        ResultActions actions = this.mockMvc.perform(get("/v1/member/23324"));
-
-        actions.andDo(print())
-                .andExpect(jsonPath("$.code").value(-1000))
-                .andExpect(jsonPath("$.msg").value("존재하지 않는 회원입니다."));
-    }
-
-    // 회원 등록 테스트
-    @Test
-    public void 회원을_등록한다() throws Exception {
-        actions.andDo(print())
+    @WithMockUser(username = "mockUser", roles = {"ADMIN"})
+    public void 전체_회원_조회() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/v1/members"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.code").value(0))
-                .andExpect(jsonPath("$.msg").value("성공하였습니다."));
+                .andExpect(jsonPath("$.list.length()").value(1));;
     }
 
-
+    // 회원 정보 조회 테스트
+    @Test
+    @WithMockUser(username = "test@test.com", roles = {"INFLUENCER"})
+    public void 회원정보_조회() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/v1/member"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.memberEmail").value("test@test.com"))
+                .andExpect(jsonPath("$.data.nickName").value("홍길동"));
+    }
 
 }

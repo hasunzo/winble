@@ -1,6 +1,6 @@
 package com.winble.server.adapter.advice.exception;
 
-import com.winble.server.adapter.advice.exception.member.CEmailSigninFailedException;
+import com.winble.server.adapter.advice.exception.member.CEmailLoginFailedException;
 import com.winble.server.adapter.advice.exception.member.CMemberNotFoundException;
 import com.winble.server.application.response.ResponseService;
 import com.winble.server.domain.model.response.CommonResult;
@@ -28,17 +28,17 @@ public class ExceptionAdvice {
         return responseService.getFailResult(-9999, "알 수 없는 오류가 발생하였습니다.");
     }
 
-    // 해당 회원을 찾을 수 없을때
+    // 해당 회원을 찾을 수 없을 때
     @ExceptionHandler(CMemberNotFoundException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult userNotFoundException(HttpServletRequest request, CMemberNotFoundException e) {
         return responseService.getFailResult(-1000, "존재하지 않는 회원입니다.");
     }
 
-    // 로그인 실패
-    @ExceptionHandler(CEmailSigninFailedException.class)
+    // 아이디 혹은 비밀번호가 일치하지 않을 때
+    @ExceptionHandler(CEmailLoginFailedException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected CommonResult emailSigninFailed(HttpServletRequest request, CEmailSigninFailedException e) {
+    protected CommonResult emailLoginFailed(HttpServletRequest request, CEmailLoginFailedException e) {
         return responseService.getFailResult(-1001, "계정이 존재하지 않거나 이메일 또는 비밀번호가 정확하지 않습니다.");
     }
 
