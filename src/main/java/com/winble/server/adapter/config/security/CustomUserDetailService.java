@@ -20,6 +20,6 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userPk) {
-        return memberRepository.findById(Long.valueOf(userPk)).orElseThrow(CMemberNotFoundException::new);
+        return (UserDetails) memberRepository.findById(Long.valueOf(userPk)).orElseThrow(CMemberNotFoundException::new);
     }
 }

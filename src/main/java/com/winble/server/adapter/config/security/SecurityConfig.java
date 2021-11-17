@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // 외부에서 인증관리자를 사용하기 위한 설정
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {     // AuthenticationManager를 외부에서 사용하기 위함
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 

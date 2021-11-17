@@ -1,5 +1,7 @@
 package com.winble.server.adapter.config.security;
 
+import com.winble.server.domain.model.member.entity.Member;
+import com.winble.server.domain.model.member.repository.MemberRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
@@ -15,7 +18,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  *
@@ -33,6 +38,8 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
+    private final MemberRepository memberRepository;
+
     @PostConstruct
     protected void init() { // JwtTokenProvider 생성 시 secretKey 생성
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
@@ -41,7 +48,6 @@ public class JwtTokenProvider {
     // jwt 토큰 생성
     public String createToken(String userPk, String role) {
         Claims claims = Jwts.claims().setSubject(userPk);
-        claims.put("role", role);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 데이터
@@ -53,14 +59,22 @@ public class JwtTokenProvider {
 
     // jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        Optional<Member> member = memberRepository.findById(Long.valueOf(this.getUserPk(token)));
+
+        // UsernamePasswordAuthenticationToken(principal, credentials, authorities)
+        return new UsernamePasswordAuthenticationToken(
+                member.get().getMemberEmail(),
+                "",
+                Collections.singleton(new SimpleGrantedAuthority(member.get().getRole().getKey())));
     }
 
     // jwt 토큰에서 회원 구별 정보 추출
     public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).
-                parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
     // Request의 Header에서 token 파싱 : "X-AUTH-TOKEN: jwt토큰"

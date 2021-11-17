@@ -22,7 +22,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "member")
-public class Member implements UserDetails {    // SpringSecurity의 보안을 적용하기 위해 UserDetails 상속
+public class Member {    // SpringSecurity의 보안을 적용하기 위해 UserDetails 상속
     @Id // pk
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;        // 회원식별번호
@@ -68,44 +68,4 @@ public class Member implements UserDetails {    // SpringSecurity의 보안을 �
     @Lob
     private String memberMemo;      // 회원메모
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> set = new HashSet<>();
-        set.add(new SimpleGrantedAuthority(role.getKey()));
-        return set;
-    }
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public String getUsername() {
-        return this.memberEmail;
-    }
-
-    // 계정이 만료가 안되었는지
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    // 계정이 잠기지 않았는지
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    // 계정 패스워드가 만료 안되었는지
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    // 계정이 사용 가능한지지
-   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
