@@ -1,6 +1,6 @@
 package com.winble.server.adapter.controller.member;
 
-import com.winble.server.application.member.MemberService;
+import com.winble.server.application.member.service.MemberService;
 import com.winble.server.application.response.ResponseService;
 import com.winble.server.domain.model.member.entity.Member;
 import com.winble.server.domain.model.response.ListResult;
@@ -27,6 +27,7 @@ public class MemberController {
     @ApiOperation(value = "회원 리스트 조회", notes = "모든 회원을 조회한다.")
     @GetMapping(value = "/members")
     public ListResult<Member> findAllUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 결과데이터가 여러건인경우 getListResult를 이용해서 결과를 출력한다.
         return responseService.getListResult(memberService.findAllMember());
     }

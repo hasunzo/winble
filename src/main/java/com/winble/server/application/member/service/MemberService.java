@@ -1,4 +1,4 @@
-package com.winble.server.application.member;
+package com.winble.server.application.member.service;
 
 import com.winble.server.adapter.advice.exception.member.CMemberNotFoundException;
 import com.winble.server.domain.model.member.entity.Member;

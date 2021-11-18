@@ -1,16 +1,13 @@
 package com.winble.server.adapter.controller.member;
 
-import com.winble.server.adapter.config.security.JwtTokenProvider;
-import com.winble.server.application.member.SignService;
+import com.winble.server.application.member.service.SignService;
 import com.winble.server.application.response.ResponseService;
-import com.winble.server.domain.model.member.repository.MemberRepository;
 import com.winble.server.domain.model.response.CommonResult;
 import com.winble.server.domain.model.response.SingleResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

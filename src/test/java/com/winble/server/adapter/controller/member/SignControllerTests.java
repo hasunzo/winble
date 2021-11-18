@@ -1,9 +1,10 @@
-package com.winble.server.member;
+package com.winble.server.adapter.controller.member;
 
 import com.winble.server.domain.model.member.entity.Member;
 import com.winble.server.domain.model.member.entity.Role;
 import com.winble.server.domain.model.member.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -56,7 +57,8 @@ public class SignControllerTests {
 
     // 자사 로그인 테스트
     @Test
-    public void 로그인_테스트() throws Exception {
+    @DisplayName("회원의 로그인을 테스트합니다.")
+    public void loginTest() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("memberEmail", "test@test.com");     // 회원 이메일
         params.add("password", "1234");                 // 회원 비밀번호
@@ -73,7 +75,8 @@ public class SignControllerTests {
 
     // 아이디 혹은 비밀번호 예외 테스트
     @Test
-    public void 로그인_실패() throws Exception {
+    @DisplayName("올바르지 않은 비밀번호로 로그인시 실패합니다.")
+    public void loginFailedTest() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("memberEmail", "test@test.com");
         params.add("password", "0000");     // 올바르지 않은 비밀번호 입력
@@ -89,7 +92,8 @@ public class SignControllerTests {
 
     // 자사 회원가입 테스트
     @Test
-    public void 회원가입_테스트() throws Exception {
+    @DisplayName("회원가입을 테스트합니다.")
+    public void signUpForMembershipTest() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("memberEmail", "joinTestUser@test.com");
         params.add("password", "1234");

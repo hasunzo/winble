@@ -63,7 +63,7 @@ public class Member {    // SpringSecurity의 보안을 적용하기 위해 User
     private String personalInfoCollectionAndUsageConsent;     // 개인정보 동의여부
 
     @Enumerated(EnumType.STRING)
-    private MemberStatus memberState;     // 회원상태
+    private MemberStatus memberStatus;     // 회원상태
 
     @Lob
     private String memberMemo;      // 회원메모

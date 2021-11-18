@@ -1,8 +1,8 @@
-package com.winble.server.member;
+package com.winble.server.domain.model.member.repository;
 
 import com.winble.server.domain.model.member.entity.Member;
 import com.winble.server.domain.model.member.entity.Role;
-import com.winble.server.domain.model.member.repository.MemberRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,8 @@ public class MemberRepositoryTests {
 
     // 이메일로 회원을 찾음을 테스트
     @Test
-    public void 이메일로_회원을_찾는다() {
+    @DisplayName("회원의 이메일로 회원정보를 조회합니다.")
+    public void findMembersByEmail() {
         // given
         String memberEmail = "test1@test.com";
         String nickName = "홍길";

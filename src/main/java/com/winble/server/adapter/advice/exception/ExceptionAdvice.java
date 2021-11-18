@@ -1,5 +1,6 @@
 package com.winble.server.adapter.advice.exception;
 
+import com.winble.server.adapter.advice.exception.authentication.CAuthenticationEntryPointException;
 import com.winble.server.adapter.advice.exception.member.CEmailLoginFailedException;
 import com.winble.server.adapter.advice.exception.member.CMemberNotFoundException;
 import com.winble.server.application.response.ResponseService;
@@ -7,6 +8,7 @@ import com.winble.server.domain.model.response.CommonResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -41,6 +43,20 @@ public class ExceptionAdvice {
     protected CommonResult emailLoginFailed(HttpServletRequest request, CEmailLoginFailedException e) {
         return responseService.getFailResult(-1001, "계정이 존재하지 않거나 이메일 또는 비밀번호가 정확하지 않습니다.");
     }
+
+    // jwt 토큰 없을 때
+    // 토큰이 형식에 맞지 않거나 만료되었을 때
+    @ExceptionHandler(CAuthenticationEntryPointException.class)
+    public CommonResult authenticationEntryPointException(HttpServletRequest request, CAuthenticationEntryPointException e) {
+        return responseService.getFailResult(-1002, "해당 리소스에 접근하기 위한 권한이 없습니다.");
+    }
+
+    // jwt 토큰으로 api를 호출하였으나 해당 리소스에 접근 권한이 없을 때
+    @ExceptionHandler(AccessDeniedException.class)
+    public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
+        return responseService.getFailResult(-1003, "보유한 권한으로 접근할 수 없는 리소스 입니다.");
+    }
+
 
 
 }

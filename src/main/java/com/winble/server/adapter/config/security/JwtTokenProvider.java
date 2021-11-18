@@ -36,9 +36,9 @@ public class JwtTokenProvider {
 
     private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유효
 
-    private final UserDetailsService userDetailsService;
-
     private final MemberRepository memberRepository;
+
+    private final UserDetailsService userDetailsService;
 
     @PostConstruct
     protected void init() { // JwtTokenProvider 생성 시 secretKey 생성
@@ -59,13 +59,12 @@ public class JwtTokenProvider {
 
     // jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
-        Optional<Member> member = memberRepository.findById(Long.valueOf(this.getUserPk(token)));
 
-        // UsernamePasswordAuthenticationToken(principal, credentials, authorities)
-        return new UsernamePasswordAuthenticationToken(
-                member.get().getMemberEmail(),
-                "",
-                Collections.singleton(new SimpleGrantedAuthority(member.get().getRole().getKey())));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, // principal
+                "", // credentials
+                userDetails.getAuthorities());  // autorities
+
     }
 
     // jwt 토큰에서 회원 구별 정보 추출
