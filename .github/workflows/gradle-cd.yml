@@ -1,0 +1,46 @@
+name: winble-CD
+
+on:
+  push:
+    branches:
+      [ master ]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+
+      - name: Grant execut permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Make zip file
+        run: zip -qq -r ./winble-server.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 winble.zip s3://winble-bucket/deploy/winble-server.zip
+
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name winble
+        --deployment-config-name CodeDeployDefault.OneAtATime
+        --deployment-group-name winble-group
+        --s3-location bucket=winble-bucket,bundleType=zip,key=deploy/winble-server.zip
