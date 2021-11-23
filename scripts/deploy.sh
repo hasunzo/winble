@@ -1,4 +1,4 @@
-REPOSITORY=/home/ec2-user/app
+REPOSITORY=/home/ec2-user/winble/app
 PROJECT_NAME=winble
 
 echo "> Build 파일을 복사합니다"
