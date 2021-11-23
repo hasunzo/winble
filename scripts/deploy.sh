@@ -3,7 +3,7 @@ PROJECT_NAME=winble
 
 echo "> Build 파일을 복사합니다"
 
-cp $REPOSITORY/zip/build/libs*.jar $REPOSITORY/
+cp $REPOSITORY/zip/build/libs/*.jar $REPOSITORY/
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
