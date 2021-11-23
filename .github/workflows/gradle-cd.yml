@@ -38,7 +38,7 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 winble.zip s3://winble-bucket/deploy/winble-server.zip
+        run: aws s3 cp --region ap-northeast-2 winble-server.zip s3://winble-bucket/deploy/winble-server.zip
 
       - name: Code Deploy
         run: aws deploy create-deployment --application-name winble --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name winble-group --s3-location bucket=winble-bucket,bundleType=zip,key=deploy/winble-server.zip
