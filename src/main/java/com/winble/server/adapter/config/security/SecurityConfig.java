@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/*/login", "/*/join", "/").permitAll()  // 로그인, 회원가입 -> 누구나 접근 가능
                         .antMatchers("/exception/**").permitAll()   // exception -> 누구나 접근 가능
                     .antMatchers("/*/members").hasRole(Role.ADMIN.name())   // 모든 유저 정보 -> 관리자만 접근
-                    .anyRequest().hasAnyRole(Role.ADVERTISER.name(), Role.INFLUENCER.name())   // 그 외 나머지 요청은 모두 인증된 회원(광고주, 인플루언서)만 접근 가능
+                    .anyRequest().authenticated()   // 그 외 나머지 요청은 모두 인증된 회원만 접근 가능
                 .and()
                     .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
