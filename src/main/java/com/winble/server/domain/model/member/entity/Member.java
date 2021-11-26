@@ -29,7 +29,7 @@ public class Member {    // SpringSecurity의 보안을 적용하기 위해 User
 
     @NotNull
     @Column(unique = true)
-    private String memberEmail;     // 회원이메일
+    private String memberLoginId;     // 로그인아이디
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
@@ -42,8 +42,13 @@ public class Member {    // SpringSecurity의 보안을 적용하기 위해 User
     @NotNull
     private String nickName;        // 회원닉네임
 
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;        // 소설 회원 타입
+
     @Column(length = 20, unique = true)
     private String phoneNumber;     // 휴대폰번호
+
+    private String picture;
 
     @Enumerated(EnumType.STRING)
     private Role role;              // 회원 권한

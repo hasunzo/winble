@@ -2,7 +2,9 @@ package com.winble.server.adapter.advice.exception;
 
 import com.winble.server.adapter.advice.exception.authentication.CAuthenticationEntryPointException;
 import com.winble.server.adapter.advice.exception.member.CEmailLoginFailedException;
+import com.winble.server.adapter.advice.exception.member.CMemberExistException;
 import com.winble.server.adapter.advice.exception.member.CMemberNotFoundException;
+import com.winble.server.adapter.advice.exception.social.CCommunicationException;
 import com.winble.server.application.response.ResponseService;
 import com.winble.server.domain.model.response.CommonResult;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult defaultException(HttpServletRequest request, Exception e) {
+        log.error(e.getMessage());
         return responseService.getFailResult(-9999, "알 수 없는 오류가 발생하였습니다.");
     }
 
@@ -53,10 +56,19 @@ public class ExceptionAdvice {
 
     // jwt 토큰으로 api를 호출하였으나 해당 리소스에 접근 권한이 없을 때
     @ExceptionHandler(AccessDeniedException.class)
-    public CommonResult AccessDeniedException(HttpServletRequest request, AccessDeniedException e) {
+    public CommonResult accessDeniedException(HttpServletRequest request, AccessDeniedException e) {
         return responseService.getFailResult(-1003, "보유한 권한으로 접근할 수 없는 리소스 입니다.");
     }
 
+    // 통신 중 오류 상황이 발생했을 때
+    @ExceptionHandler(CCommunicationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public CommonResult communicationException(HttpServletRequest request, CCommunicationException e) {
+        return responseService.getFailResult(-1004, "통신 중 오류가 발생했습니다.");
+    }
 
-
+    // 이미 가입한 회원일 때
+    public CommonResult memberExistException(HttpServletRequest request, CMemberExistException e) {
+        return responseService.getFailResult(-1005, "이미 가입한 회원입니다.");
+    }
 }

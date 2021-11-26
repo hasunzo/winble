@@ -48,7 +48,7 @@ public class MemberControllerTests {
                 .build();
 
         memberRepository.save(Member.builder()
-                .memberEmail("test@test.com")
+                .memberLoginId("test@test.com")
                 .nickName("홍길동")
                 .password(passwordEncoder.encode("1234"))
                 .role(Role.INFLUENCER)
@@ -87,7 +87,7 @@ public class MemberControllerTests {
                 .get("/v1/member"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.memberEmail").value("test@test.com"))
+                .andExpect(jsonPath("$.data.memberLoginId").value("test@test.com"))
                 .andExpect(jsonPath("$.data.nickName").value("홍길동"));
     }
 
