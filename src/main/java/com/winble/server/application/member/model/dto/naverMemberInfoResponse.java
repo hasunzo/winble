@@ -15,9 +15,6 @@ public class naverMemberInfoResponse implements MemberInfoResponse {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("name")
-    private String memberName;
-
     @JsonProperty("nickname")
     private String nickName;
 
@@ -32,7 +29,6 @@ public class naverMemberInfoResponse implements MemberInfoResponse {
     public Member toMember() {
         return Member.builder()
                 .memberLoginId(String.valueOf(this.id))
-                .memberName(this.memberName)
                 .nickName(this.nickName)
                 .picture(this.picture)
                 .role(Role.INFLUENCER)

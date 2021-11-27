@@ -15,8 +15,6 @@ public class kakaoMemberInfoResponse implements MemberInfoResponse {
 
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("name")
-    private String memberName;
 
     private Properties properties;
 
@@ -38,7 +36,6 @@ public class kakaoMemberInfoResponse implements MemberInfoResponse {
     public Member toMember() {
         return Member.builder()
                 .memberLoginId(String.valueOf(this.id))
-                .memberName(this.memberName)
                 .nickName(this.properties.nickName)
                 .role(Role.INFLUENCER)
                 .picture(this.properties.picture)

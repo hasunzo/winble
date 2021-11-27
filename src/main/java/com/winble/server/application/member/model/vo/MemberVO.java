@@ -21,7 +21,7 @@ public class MemberVO implements UserDetails {
     private MemberStatus memberStatus;
 
     public MemberVO(Member entity) {
-        this.id = entity.getMemberId();
+        this.id = entity.getId();
         this.memberLoginId = entity.getMemberLoginId();
         this.password = entity.getPassword();
         this.role = entity.getRole();

@@ -35,7 +35,7 @@ public class SignService {
         }
 
         // 토큰을 발급한다.
-        return jwtTokenProvider.createToken(String.valueOf(member.getMemberId()), member.getRole().getKey());
+        return jwtTokenProvider.createToken(String.valueOf(member.getId()), member.getRole().getKey());
     }
 
     // 자사 서비스 회원가입
@@ -59,7 +59,7 @@ public class SignService {
         Member member = memberRepository.findByMemberLoginIdAndSocialType(String.valueOf(memberInfoResponse.getId()), SocialType.valueOf(socialType)).orElseThrow(CMemberNotFoundException::new);
 
         // 토큰 발급
-        return jwtTokenProvider.createToken(String.valueOf(member.getMemberId()), member.getRole().getKey());
+        return jwtTokenProvider.createToken(String.valueOf(member.getId()), member.getRole().getKey());
     }
 
     // 소셜 서비스 회원가입

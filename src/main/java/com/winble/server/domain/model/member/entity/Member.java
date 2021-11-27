@@ -25,7 +25,8 @@ import java.util.Set;
 public class Member {    // SpringSecurity의 보안을 적용하기 위해 UserDetails 상속
     @Id // pk
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long memberId;        // 회원식별번호
+    @Column(name = "MEMBER_ID")
+    private long id;        // 회원식별번호
 
     @NotNull
     @Column(unique = true)
