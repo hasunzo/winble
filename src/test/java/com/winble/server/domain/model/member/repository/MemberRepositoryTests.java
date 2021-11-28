@@ -30,19 +30,19 @@ public class MemberRepositoryTests {
     @DisplayName("회원의 이메일로 회원정보를 조회합니다.")
     public void findMembersByEmail() {
         // given
-        String memberEmail = "test1@test.com";
+        String memberLoginId = "test1@test.com";
         String nickName = "홍길";
         memberRepository.save(Member.builder()
-                    .memberEmail(memberEmail)
+                    .memberLoginId(memberLoginId)
                     .nickName(nickName)
                     .password(passwordEncoder.encode("1234"))
                     .role(Role.INFLUENCER)
                     .build());
 
         // when
-        Optional<Member> member = memberRepository.findByMemberEmail(memberEmail);
+        Optional<Member> member = memberRepository.findByMemberLoginId(memberLoginId);
 
         // then
-        assertThat(member.get().getMemberEmail(), is(memberEmail));
+        assertThat(member.get().getMemberLoginId(), is(memberLoginId));
     }
 }
