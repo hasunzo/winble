@@ -36,7 +36,7 @@ public class MemberController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
     })
-    @ApiOperation(value = "회원 단건 조회", notes = "memberId로 회원을 조회한다.")
+    @ApiOperation(value = "회원 단건 조회", notes = "토큰값으로 회원을 조회한다.")
     @GetMapping(value = "/member")
     public SingleResult<Member> findMemberByEmail() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.

@@ -48,7 +48,7 @@ public class SignControllerTests {
                 .build();
 
         memberRepository.save(Member.builder()
-                        .memberEmail("test@test.com")
+                        .memberLoginId("test@test.com")
                         .nickName("홍길동")
                         .password(passwordEncoder.encode("1234"))
                         .role(Role.INFLUENCER)
@@ -60,7 +60,7 @@ public class SignControllerTests {
     @DisplayName("회원의 로그인을 테스트합니다.")
     public void loginTest() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("memberEmail", "test@test.com");     // 회원 이메일
+        params.add("memberLoginId", "test@test.com");     // 회원 이메일
         params.add("password", "1234");                 // 회원 비밀번호
 
         // return SingleResult
@@ -78,7 +78,7 @@ public class SignControllerTests {
     @DisplayName("올바르지 않은 비밀번호로 로그인시 실패합니다.")
     public void loginFailedTest() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("memberEmail", "test@test.com");
+        params.add("memberLoginId", "test@test.com");
         params.add("password", "0000");     // 올바르지 않은 비밀번호 입력
 
         mockMvc.perform(post("/v1/login").params(params))
@@ -95,7 +95,7 @@ public class SignControllerTests {
     @DisplayName("회원가입을 테스트합니다.")
     public void signUpForMembershipTest() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("memberEmail", "joinTestUser@test.com");
+        params.add("memberLoginId", "joinTestUser@test.com");
         params.add("password", "1234");
         params.add("nickName", "테스트닉네임");
 

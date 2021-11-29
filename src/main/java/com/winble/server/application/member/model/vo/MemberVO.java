@@ -3,7 +3,6 @@ package com.winble.server.application.member.model.vo;
 import com.winble.server.domain.model.member.entity.Member;
 import com.winble.server.domain.model.member.entity.MemberStatus;
 import com.winble.server.domain.model.member.entity.Role;
-import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,14 +15,14 @@ import java.util.Collections;
 public class MemberVO implements UserDetails {
 
     private long id;
-    private String memberEmail;
+    private String memberLoginId;
     private String password;
     private Role role;
     private MemberStatus memberStatus;
 
     public MemberVO(Member entity) {
-        this.id = entity.getMemberId();
-        this.memberEmail = entity.getMemberEmail();
+        this.id = entity.getId();
+        this.memberLoginId = entity.getMemberLoginId();
         this.password = entity.getPassword();
         this.role = entity.getRole();
         this.memberStatus = entity.getMemberStatus();
@@ -41,7 +40,7 @@ public class MemberVO implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.memberEmail;
+        return this.memberLoginId;
     }
 
     @Override

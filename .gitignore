@@ -164,3 +164,6 @@ fabric.properties
 # jwt
 application-jwt.yml
 
+# oauth
+application-oauth.yml
+

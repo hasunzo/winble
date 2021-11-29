@@ -21,6 +21,6 @@ public class MemberService {
     // 회원 이메일로 회원 정보를 반환하는 메소드
     public Member findMemberByEmail(String memberEmail) {
         // Exception 발생시 CMemberNotFoundException 생성
-        return memberRepository.findByMemberEmail(memberEmail).orElseThrow(CMemberNotFoundException::new);
+        return memberRepository.findByMemberLoginId(memberEmail).orElseThrow(CMemberNotFoundException::new);
     }
 }
