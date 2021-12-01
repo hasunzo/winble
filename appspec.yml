@@ -7,7 +7,7 @@ files:
     overwrite: yes
 
 permissions:  # ec2-user권한을 갖도록 한다.
-  - object: /
+  - object: /home/ec2-user/winble/app/zip
     pattern: "**"
     owner: ec2-user
     group: ec2-user
@@ -15,5 +15,5 @@ permissions:  # ec2-user권한을 갖도록 한다.
 hooks:  # CodeDeploy에서 배포 단계에서 실행할 명령어를 지정
   AfterInstall: # deploy.sh를 ec2-user 권한으로 실행
     - location: scripts/deploy.sh
-      timeout: 60 # 스크립트 싷행 60초 이상 수행되면 실패
+      timeout: 60 # 스크립트 실행 60초 이상 수행되면 실패
       runas: root
