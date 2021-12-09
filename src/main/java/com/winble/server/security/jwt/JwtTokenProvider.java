@@ -1,6 +1,6 @@
 package com.winble.server.security.jwt;
 
-import com.winble.server.member.repository.MemberRepository;
+import com.winble.server.member.repository.InfluencerRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -32,7 +32,7 @@ public class JwtTokenProvider {
 
     private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유효
 
-    private final MemberRepository memberRepository;
+    private final InfluencerRepository influencerRepository;
 
     private final UserDetailsService userDetailsService;
 
@@ -42,7 +42,7 @@ public class JwtTokenProvider {
     }
 
     // jwt 토큰 생성
-    public String createToken(String userPk, String role) {
+    public String createToken(String userPk) {
         Claims claims = Jwts.claims().setSubject(userPk);
         Date now = new Date();
         return Jwts.builder()

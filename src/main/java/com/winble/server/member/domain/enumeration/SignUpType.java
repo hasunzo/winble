@@ -5,6 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum SocialType {
-    KAKAO, NAVER
+public enum SignUpType {
+    WINBLE, KAKAO, NAVER
 }

@@ -3,9 +3,6 @@ package com.winble.server.member.service;
 import com.google.gson.Gson;
 import com.winble.server.exception.social.CCommunicationException;
 import com.winble.server.exception.social.CProviderNotFoundException;
-import com.winble.server.member.web.rest.dto.response.MemberInfoResponse;
-import com.winble.server.member.web.rest.dto.response.kakaoMemberInfoResponse;
-import com.winble.server.member.web.rest.dto.response.naverMemberInfoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -23,7 +20,7 @@ public class SocialService {
     private final Environment env;
     private final Gson gson;
 
-    public MemberInfoResponse getSocialProfile(String accessToken, String socialType) {
+    public SocialProfile getSocialProfile(String accessToken, String socialType) {
         // Set Header : Content-type : application/x-www.form-urlencoded
         // 헤더에 accessToken 담기
         HttpHeaders headers = new HttpHeaders();
@@ -37,7 +34,7 @@ public class SocialService {
             // Request profile
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
             ResponseEntity<String> response = restTemplate.postForEntity(
-                    env.getProperty(requestUrl), request, String.class);
+                    requestUrl, request, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 return getMemberInfoResponse(response.getBody(), socialType);
             }
@@ -48,13 +45,13 @@ public class SocialService {
         throw new CCommunicationException();
     }
 
-    private MemberInfoResponse getMemberInfoResponse(String response, String socialType) {
+    private SocialProfile getMemberInfoResponse(String response, String socialType) {
         switch (socialType) {
             // 카카오
             case "KAKAO":
-                return gson.fromJson(response, kakaoMemberInfoResponse.class);
+                return gson.fromJson(response, KakaoProfile.class);
             case "NAVER":
-                return gson.fromJson(response, naverMemberInfoResponse.class);
+                return gson.fromJson(response, NaverProfile.class);
             default:
                 // 적절하지 않은 provider
                 throw new CProviderNotFoundException();
@@ -67,11 +64,11 @@ public class SocialService {
         switch (socialType) {
             // 카카오
             case "KAKAO":
-                requestUrl = "spring.social.kakao.url.profile";
+                requestUrl = "https://kapi.kakao.com/v2/user/me";
                 break;
             // 네이버
             case "NAVER":
-                requestUrl = "spring.social.naver.url.profile";
+                requestUrl = "https://openapi.naver.com/v1/nid/me";
                 break;
             default:
                 // 적절하지 않은 provider

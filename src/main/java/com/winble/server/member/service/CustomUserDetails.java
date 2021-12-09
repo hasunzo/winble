@@ -1,6 +1,6 @@
-package com.winble.server.member.web.rest.dto.response;
+package com.winble.server.member.service;
 
-import com.winble.server.member.domain.Member;
+import com.winble.server.member.domain.Influencer;
 import com.winble.server.member.domain.enumeration.MemberStatus;
 import com.winble.server.member.domain.enumeration.Role;
 import lombok.Getter;
@@ -12,20 +12,20 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Getter
-public class UserDetailsResponse implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
     private long id;
-    private String memberLoginId;
+    private String email;
     private String password;
     private Role role;
     private MemberStatus memberStatus;
 
-    public UserDetailsResponse(Member entity) {
+    public CustomUserDetails(Influencer entity) {
         this.id = entity.getId();
-        this.memberLoginId = entity.getMemberLoginId();
+        this.email = entity.getLoginId();
         this.password = entity.getPassword();
         this.role = entity.getRole();
-        this.memberStatus = entity.getMemberStatus();
+        this.memberStatus = entity.getStatus();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class UserDetailsResponse implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.memberLoginId;
+        return this.email;
     }
 
     @Override

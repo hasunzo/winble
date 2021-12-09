@@ -1,8 +1,7 @@
 package com.winble.server.member.web.rest;
 
-import com.winble.server.member.domain.Member;
 import com.winble.server.member.domain.enumeration.Role;
-import com.winble.server.member.repository.MemberRepository;
+import com.winble.server.member.repository.InfluencerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +35,7 @@ public class MemberResourceTests {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private InfluencerRepository influencerRepository;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -47,7 +46,7 @@ public class MemberResourceTests {
                 .addFilter(new CharacterEncodingFilter("UTF-8", true))
                 .build();
 
-        memberRepository.save(Member.builder()
+        influencerRepository.save(Member.builder()
                 .memberLoginId("test@test.com")
                 .nickName("홍길동")
                 .password(passwordEncoder.encode("1234"))

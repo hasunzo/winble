@@ -1,8 +1,6 @@
 package com.winble.server.member.repository;
 
-import com.winble.server.member.domain.Member;
 import com.winble.server.member.domain.enumeration.Role;
-import com.winble.server.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,10 +16,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class MemberRepositoryTests {
+public class InfluencerRepositoryTests {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private InfluencerRepository influencerRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -33,7 +31,7 @@ public class MemberRepositoryTests {
         // given
         String memberLoginId = "test1@test.com";
         String nickName = "홍길";
-        memberRepository.save(Member.builder()
+        influencerRepository.save(Member.builder()
                     .memberLoginId(memberLoginId)
                     .nickName(nickName)
                     .password(passwordEncoder.encode("1234"))
@@ -41,7 +39,7 @@ public class MemberRepositoryTests {
                     .build());
 
         // when
-        Optional<Member> member = memberRepository.findByMemberLoginId(memberLoginId);
+        Optional<Member> member = influencerRepository.findByMemberLoginId(memberLoginId);
 
         // then
         assertThat(member.get().getMemberLoginId(), is(memberLoginId));
