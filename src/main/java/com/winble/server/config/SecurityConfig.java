@@ -2,7 +2,7 @@ package com.winble.server.config;
 
 import com.winble.server.exception.authentication.handler.CustomAccessDeniedHandler;
 import com.winble.server.exception.authentication.handler.CustomAuthenticationEntryPoint;
-import com.winble.server.member.domain.enumeration.Role;
+import com.winble.server.influencer.domain.enumeration.Role;
 import com.winble.server.security.jwt.JwtAuthenticationFilter;
 import com.winble.server.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
                         .antMatchers("/*/login","/*/login/*", "/*/signUp", "/").permitAll()  // 로그인, 회원가입 -> 누구나 접근 가능
                         .antMatchers("/exception/**").permitAll()   // exception -> 누구나 접근 가능
-                    .antMatchers("/*/members").hasRole(Role.ADMIN.name())   // 모든 유저 정보 -> 관리자만 접근
+                    .antMatchers("/*/influencers").hasRole(Role.ADMIN.name())   // 모든 유저 정보 -> 관리자만 접근
                     .anyRequest().authenticated()   // 그 외 나머지 요청은 모두 인증된 회원만 접근 가능
                 .and()
                     .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())

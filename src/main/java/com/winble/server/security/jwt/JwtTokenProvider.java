@@ -1,6 +1,6 @@
 package com.winble.server.security.jwt;
 
-import com.winble.server.member.repository.InfluencerRepository;
+import com.winble.server.influencer.repository.InfluencerRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -57,6 +57,10 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token) {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+
+        System.out.println("======================");
+        System.out.println("userDetails: "+userDetails.getUsername());
+
         return new UsernamePasswordAuthenticationToken(userDetails, // principal
                 "", // credentials
                 userDetails.getAuthorities());  // autorities
