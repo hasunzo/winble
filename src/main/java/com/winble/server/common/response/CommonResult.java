@@ -1,4 +1,4 @@
-package com.winble.server.response.domain;
+package com.winble.server.common.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.winble.server.security.jwt;
+package com.winble.server.common.jwt;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,4 +1,4 @@
-package com.winble.server.response.domain;
+package com.winble.server.common.response;
 
 import lombok.Getter;
 import lombok.Setter;

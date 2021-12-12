@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Getter
-@RequiredArgsConstructor
 @Builder
+@RequiredArgsConstructor
 public class InfluencerJoinRequest {
     @NotBlank(message = "아이디를 입력해주세요.")
     @ApiModelProperty(value = "회원 아이디(이메일)", required = true)

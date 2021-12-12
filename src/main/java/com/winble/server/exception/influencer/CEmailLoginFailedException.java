@@ -1,4 +1,4 @@
-package com.winble.server.exception.member;
+package com.winble.server.exception.influencer;
 
 // 아이디 혹은 비밀번호가 일치않을 시 발생하는 익셉션
 public class CEmailLoginFailedException extends RuntimeException {

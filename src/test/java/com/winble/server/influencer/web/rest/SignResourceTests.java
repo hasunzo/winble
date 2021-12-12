@@ -32,9 +32,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @Transactional
 public class SignResourceTests {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     private MockMvc mockMvc;
 
     @Autowired
@@ -59,8 +56,8 @@ public class SignResourceTests {
 
         InfluencerJoinRequest request = InfluencerJoinRequest.builder()
                 .loginId(influencerDummy.getLoginId())
-                .nickName(influencerDummy.getBasicProfile().getNickName())
                 .password(influencerDummy.getPassword())
+                .nickName(influencerDummy.getBasicProfile().getNickName())
                 .build();
 
         // 직접적으로 repository.save를 통해 회원을 등록하면 패스워드 encode 문제발생
@@ -97,13 +94,13 @@ public class SignResourceTests {
     @Test
     @DisplayName("올바르지 않은 비밀번호로 로그인시 실패합니다.")
     public void loginFailedTest() throws Exception {
-        InfluencerLoginRequest influencerLoginRequest = InfluencerLoginRequest.builder()
+        InfluencerLoginRequest request = InfluencerLoginRequest.builder()
                 .loginId(influencerDummy.getLoginId())
                 .password("falsePassword")
                 .build();
 
         mockMvc.perform(post("/v1/login")
-                .content(gson.toJson(influencerLoginRequest))
+                .content(gson.toJson(request))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is5xxServerError())
@@ -116,15 +113,15 @@ public class SignResourceTests {
     // 자사 회원가입 테스트
     @Test
     @DisplayName("회원가입을 테스트합니다.")
-    public void signUpForMembershipTest() throws Exception {
-        InfluencerJoinRequest influencerJoinRequest = InfluencerJoinRequest.builder()
+    public void signUpTest() throws Exception {
+        InfluencerJoinRequest request = InfluencerJoinRequest.builder()
+                .password("password")
                 .loginId("test02@test.com")
                 .nickName("nickName")
-                .password("password")
                 .build();
 
         mockMvc.perform(post("/v1/signUp")
-                .content(gson.toJson(influencerJoinRequest))
+                .content(gson.toJson(request))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

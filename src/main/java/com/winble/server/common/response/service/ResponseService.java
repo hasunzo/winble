@@ -1,8 +1,8 @@
-package com.winble.server.response.service;
+package com.winble.server.common.response.service;
 
-import com.winble.server.response.domain.CommonResult;
-import com.winble.server.response.domain.ListResult;
-import com.winble.server.response.domain.SingleResult;
+import com.winble.server.common.response.CommonResult;
+import com.winble.server.common.response.ListResult;
+import com.winble.server.common.response.SingleResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;

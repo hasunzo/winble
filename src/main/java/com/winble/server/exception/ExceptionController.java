@@ -1,7 +1,7 @@
 package com.winble.server.exception;
 
 import com.winble.server.exception.authentication.CAuthenticationEntryPointException;
-import com.winble.server.response.domain.CommonResult;
+import com.winble.server.common.response.CommonResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;

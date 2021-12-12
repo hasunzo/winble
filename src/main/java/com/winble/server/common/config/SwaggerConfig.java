@@ -1,4 +1,4 @@
-package com.winble.server.config;
+package com.winble.server.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

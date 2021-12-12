@@ -1,12 +1,12 @@
 package com.winble.server.exception;
 
 import com.winble.server.exception.authentication.CAuthenticationEntryPointException;
-import com.winble.server.exception.member.CEmailLoginFailedException;
-import com.winble.server.exception.member.CMemberExistException;
-import com.winble.server.exception.member.CMemberNotFoundException;
+import com.winble.server.exception.influencer.CEmailLoginFailedException;
+import com.winble.server.exception.influencer.CInfluencerExistException;
+import com.winble.server.exception.influencer.CInfluencerNotFoundException;
 import com.winble.server.exception.social.CCommunicationException;
-import com.winble.server.response.service.ResponseService;
-import com.winble.server.response.domain.CommonResult;
+import com.winble.server.common.response.service.ResponseService;
+import com.winble.server.common.response.CommonResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,14 +29,16 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult defaultException(HttpServletRequest request, Exception e) {
-        log.error(e.getMessage());
+        log.info(String.valueOf(e.getStackTrace()));
+        log.info(e.toString());
+        log.info(String.valueOf(e.getCause()));
         return responseService.getFailResult(-9999, "알 수 없는 오류가 발생하였습니다.");
     }
 
     // 해당 회원을 찾을 수 없을 때
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected CommonResult userNotFoundException(HttpServletRequest request, CMemberNotFoundException e) {
+    protected CommonResult userNotFoundException(HttpServletRequest request, CInfluencerNotFoundException e) {
         return responseService.getFailResult(-1000, "존재하지 않는 회원입니다.");
     }
 
@@ -68,7 +70,7 @@ public class ExceptionAdvice {
     }
 
     // 이미 가입한 회원일 때
-    public CommonResult memberExistException(HttpServletRequest request, CMemberExistException e) {
+    public CommonResult memberExistException(HttpServletRequest request, CInfluencerExistException e) {
         return responseService.getFailResult(-1005, "이미 가입한 회원입니다.");
     }
 }

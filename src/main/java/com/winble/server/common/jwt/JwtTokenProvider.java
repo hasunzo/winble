@@ -1,4 +1,4 @@
-package com.winble.server.security.jwt;
+package com.winble.server.common.jwt;
 
 import com.winble.server.influencer.repository.InfluencerRepository;
 import io.jsonwebtoken.Claims;

@@ -1,6 +1,6 @@
 package com.winble.server.influencer.service;
 
-import com.winble.server.exception.member.CMemberNotFoundException;
+import com.winble.server.exception.influencer.CInfluencerNotFoundException;
 import com.winble.server.influencer.domain.Influencer;
 import com.winble.server.influencer.repository.InfluencerRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Influencer user = influencerRepository.findById(Long.valueOf(username)).orElseThrow(CMemberNotFoundException::new);
-        System.out.println("==============loadUserByUsername============");
-        System.out.println("username: "+username);
-        System.out.println(user.getId());
-        System.out.println(user.getLoginId());
+        Influencer user = influencerRepository.findById(Long.valueOf(username)).orElseThrow(CInfluencerNotFoundException::new);
         return new CustomUserDetails(user);
     }
 }

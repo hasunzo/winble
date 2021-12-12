@@ -1,7 +1,7 @@
 package com.winble.server.influencer.service;
 
-import com.winble.server.exception.member.CEmailLoginFailedException;
-import com.winble.server.exception.member.CMemberExistException;
+import com.winble.server.exception.influencer.CEmailLoginFailedException;
+import com.winble.server.exception.influencer.CInfluencerExistException;
 import com.winble.server.influencer.domain.Influencer;
 import com.winble.server.influencer.domain.enumeration.InfluencerStatus;
 import com.winble.server.influencer.domain.profile.BasicProfile;
@@ -9,7 +9,7 @@ import com.winble.server.influencer.service.socialProfile.SocialProfile;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerJoinRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerLoginRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerSocialLoginRequest;
-import com.winble.server.security.jwt.JwtTokenProvider;
+import com.winble.server.common.jwt.JwtTokenProvider;
 import com.winble.server.influencer.domain.enumeration.Role;
 import com.winble.server.influencer.domain.enumeration.SignUpType;
 import com.winble.server.influencer.repository.InfluencerRepository;
@@ -103,7 +103,7 @@ public class SignService {
     public void isPresentUser(String loginId) {
         Optional<Influencer> influencer = influencerRepository.findByLoginId(loginId);
         if (influencer.isPresent()) {
-            throw new CMemberExistException();
+            throw new CInfluencerExistException();
         }
     }
 }
