@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Builder
 @Entity
@@ -32,6 +33,9 @@ public class Influencer extends BaseTimeEntity {
 
     @Embedded
     BasicProfile basicProfile;
+
+    @OneToMany (mappedBy = "influencer", orphanRemoval = true, cascade = CascadeType.PERSIST)  // CascadeType.PERSIST (영속성 전이) : 부모 엔티티를 저장할 때 자식 엔티티도 함께 저장
+    private List<Address> address;      // orphanRemoval = true (고아 객체) : 부모 엔티티와 연관관계가 끊어진 자식 엔티티를 자동으로 삭제하는 기능
 
     @Enumerated(EnumType.STRING)
     private SignUpType signUpType;
