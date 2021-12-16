@@ -1,8 +1,11 @@
 package com.winble.server.influencer.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +17,7 @@ public class Address {
     private String city;    // 면읍구군시
     private String detailAddress; // 세부주소
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "INFLUENCER_ID")
     private Influencer influencer;  // 인플루언서 참조
 }

@@ -48,4 +48,8 @@ public class Influencer extends BaseTimeEntity {
 
     @Lob
     private String memo;
+
+    public void addAddress(Address address) {
+        this.address.add(address);
+    }
 }
