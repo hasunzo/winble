@@ -5,17 +5,17 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * 블로그 활동 주제 (블로그 카테고리) 엔티티 *
+ * 활동 지역 엔티티
  *
  */
 @Entity
-public class BlogCategory {
+public class ActivityArea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BLOGCATEGORY_ID")
+    @Column(name = "ACTIVITYAREA_ID")
     private Long id;
 
     @NotNull
     @Column(unique = true)
-    private String blogCategoryName;
+    private String activityAreaName;
 }

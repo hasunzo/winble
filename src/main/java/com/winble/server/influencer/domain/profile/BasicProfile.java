@@ -7,6 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
+/**
+ *
+ * 인플루언서 기본 정보 엔티티
+ *
+ */
 @Embeddable
 @Getter
 public class BasicProfile {

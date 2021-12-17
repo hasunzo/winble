@@ -3,6 +3,7 @@ package com.winble.server.influencer.domain;
 import com.winble.server.influencer.domain.enumeration.SignUpType;
 import com.winble.server.influencer.domain.enumeration.InfluencerStatus;
 import com.winble.server.influencer.domain.enumeration.Role;
+import com.winble.server.influencer.domain.profile.ActivityArea;
 import com.winble.server.influencer.domain.profile.BasicProfile;
 import com.winble.server.influencer.domain.profile.BlogCategory;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,12 @@ public class Influencer extends BaseTimeEntity {
                 joinColumns = @JoinColumn(name = "INFLUENCER_ID"),
                 inverseJoinColumns = @JoinColumn(name = "BLOGCATEGORY_ID"))
     private List<BlogCategory> blogCategories = new ArrayList<BlogCategory>();  // 인플루언서의 블로그 활동 주제들
+
+    @ManyToMany
+    @JoinTable(name = "INFLUENCER_ACTIVITYAREA",
+                joinColumns = @JoinColumn(name = "INFLUENCER_ID"),
+                inverseJoinColumns = @JoinColumn(name = "ACTIVITYAREA_ID"))
+    private List<ActivityArea> activityAreas = new ArrayList<ActivityArea>();   // 인플루언서의 활동 지역들
 
     @Enumerated(EnumType.STRING)
     private SignUpType signUpType;
