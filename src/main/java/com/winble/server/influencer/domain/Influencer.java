@@ -3,9 +3,7 @@ package com.winble.server.influencer.domain;
 import com.winble.server.influencer.domain.enumeration.SignUpType;
 import com.winble.server.influencer.domain.enumeration.InfluencerStatus;
 import com.winble.server.influencer.domain.enumeration.Role;
-import com.winble.server.influencer.domain.profile.ActivityArea;
-import com.winble.server.influencer.domain.profile.BasicProfile;
-import com.winble.server.influencer.domain.profile.BlogCategory;
+import com.winble.server.influencer.domain.profile.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +35,9 @@ public class Influencer extends BaseTimeEntity {
     @Embedded
     BasicProfile basicProfile;
 
+    @Embedded
+    InfluencerInfo influencerInfo;
+
     @OneToMany (mappedBy = "influencer", orphanRemoval = true, cascade = CascadeType.PERSIST)  // CascadeType.PERSIST (영속성 전이) : 부모 엔티티를 저장할 때 자식 엔티티도 함께 저장
     private List<Address> address;      // orphanRemoval = true (고아 객체) : 부모 엔티티와 연관관계가 끊어진 자식 엔티티를 자동으로 삭제하는 기능
 
@@ -63,8 +64,4 @@ public class Influencer extends BaseTimeEntity {
 
     @Lob
     private String memo;
-
-    public void addAddress(Address address) {
-        this.address.add(address);
-    }
 }

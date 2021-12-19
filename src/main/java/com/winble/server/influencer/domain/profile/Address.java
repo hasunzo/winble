@@ -1,5 +1,6 @@
-package com.winble.server.influencer.domain;
+package com.winble.server.influencer.domain.profile;
 
+import com.winble.server.influencer.domain.Influencer;
 import lombok.Getter;
 
 import javax.persistence.*;
