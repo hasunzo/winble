@@ -1,8 +1,8 @@
 package com.winble.server.influencer.service;
 
 import com.google.gson.Gson;
-import com.winble.server.exception.social.CCommunicationException;
-import com.winble.server.exception.social.CProviderNotFoundException;
+import com.winble.server.common.exception.BizException;
+import com.winble.server.common.exception.social.SocialLoginErrorCode;
 import com.winble.server.influencer.service.socialProfile.KakaoProfile;
 import com.winble.server.influencer.service.socialProfile.NaverProfile;
 import com.winble.server.influencer.service.socialProfile.SocialProfile;
@@ -39,16 +39,16 @@ public class SocialService {
             ResponseEntity<String> response = restTemplate.postForEntity(
                     requestUrl, request, String.class);
             if (response.getStatusCode() == HttpStatus.OK) {
-                return getMemberInfoResponse(response.getBody(), socialType);
+                return getInfluencerInfoResponse(response.getBody(), socialType);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new CCommunicationException();
+            throw new BizException(SocialLoginErrorCode.COMMUNICATION_ERROR);
         }
-        throw new CCommunicationException();
+        throw new BizException(SocialLoginErrorCode.COMMUNICATION_ERROR);
     }
 
-    private SocialProfile getMemberInfoResponse(String response, String socialType) {
+    private SocialProfile getInfluencerInfoResponse(String response, String socialType) {
         switch (socialType) {
             // 카카오
             case "KAKAO":
@@ -57,7 +57,7 @@ public class SocialService {
                 return gson.fromJson(response, NaverProfile.class);
             default:
                 // 적절하지 않은 provider
-                throw new CProviderNotFoundException();
+                throw new BizException(SocialLoginErrorCode.PROVIDER_NOT_FOUND);
         }
     }
 
@@ -75,7 +75,7 @@ public class SocialService {
                 break;
             default:
                 // 적절하지 않은 provider
-                throw new CProviderNotFoundException();
+                throw new BizException(SocialLoginErrorCode.PROVIDER_NOT_FOUND);
         }
         return requestUrl;
     }

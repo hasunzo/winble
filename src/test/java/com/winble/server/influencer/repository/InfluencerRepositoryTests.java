@@ -1,7 +1,8 @@
 package com.winble.server.influencer.repository;
 
+import com.winble.server.common.exception.BizException;
+import com.winble.server.common.exception.influencer.InfluencerCrudErrorCode;
 import com.winble.server.dummy.influencer.InfluencerDummy;
-import com.winble.server.exception.social.CProviderNotFoundException;
 import com.winble.server.influencer.domain.Influencer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +45,7 @@ public class InfluencerRepositoryTests {
     public void findByLoginIdAndSignUpType() {
         Influencer influencer = influencerRepository
                 .findByLoginIdAndSignUpType(influencerDummy.getLoginId(), influencerDummy.getSignUpType())
-                .orElseThrow(() -> new CProviderNotFoundException());
+                .orElseThrow(() -> new BizException(InfluencerCrudErrorCode.INFLUENCER_NOT_FOUND));
         assertThat(influencer.getSignUpType(), is(influencerDummy.getSignUpType()));
     }
 

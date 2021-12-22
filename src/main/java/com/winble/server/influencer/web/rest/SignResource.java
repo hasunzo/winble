@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +37,8 @@ public class SignResource {
     // 로그인 후 토큰이 발급된다.
     @ApiOperation(value = "로그인", notes = "자사 서비스 로그인을 한다.")
     @PostMapping(value = "/login")
-    public SingleResult<String> login(@Valid @RequestBody InfluencerLoginRequest influencerLoginRequest) {
-        return responseService.getSingleResult(signService.login(influencerLoginRequest));
+    public ResponseEntity<String> login(@Valid @RequestBody InfluencerLoginRequest influencerLoginRequest) {
+        return ResponseEntity.ok(signService.login(influencerLoginRequest));
     }
 
     // 자사 서비스 회원가입

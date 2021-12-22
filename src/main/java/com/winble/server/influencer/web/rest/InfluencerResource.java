@@ -8,6 +8,7 @@ import com.winble.server.common.response.ListResult;
 import com.winble.server.common.response.SingleResult;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class InfluencerResource {
     })
     @ApiOperation(value = "회원 리스트 조회", notes = "모든 회원을 조회한다.")
     @GetMapping(value = "/influencers")
-    public ListResult<InfluencerAllResponse> findAllUser() {
+    public ResponseEntity<List<InfluencerAllResponse>> findAllUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         List<InfluencerAllResponse> influencerAllResponseList = influencerService.findAllInfluencer()
@@ -38,7 +39,7 @@ public class InfluencerResource {
                 .map(entity -> new InfluencerAllResponse(entity))
                 .collect(Collectors.toList());
 
-        return responseService.getListResult(influencerAllResponseList);
+        return ResponseEntity.ok(influencerAllResponseList);
     }
 
     // 토큰에 저장된 회원아이디로 회원 정보를 반환한다.
@@ -47,15 +48,14 @@ public class InfluencerResource {
     })
     @ApiOperation(value = "회원 단건 조회", notes = "토큰값으로 회원을 조회한다.")
     @GetMapping(value = "/influencer")
-    public SingleResult<InfluencerResponse> findMemberByEmail() {
+    public ResponseEntity<InfluencerResponse> findMemberByEmail() {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         InfluencerResponse influencer = new InfluencerResponse(
                 influencerService.findInfluencerByLoginId(authentication.getName()));
 
-        // 결과데이터가 단일건인경우 getBasicResult를 이용해서 결과를 출력한다.
-        return responseService.getSingleResult(influencer);
+        return ResponseEntity.ok(influencer);
     }
 
     //TODO: 회원 수정, 회원 삭제

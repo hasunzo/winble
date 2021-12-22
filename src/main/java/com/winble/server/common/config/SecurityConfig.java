@@ -1,7 +1,7 @@
 package com.winble.server.common.config;
 
-import com.winble.server.exception.authentication.handler.CustomAccessDeniedHandler;
-import com.winble.server.exception.authentication.handler.CustomAuthenticationEntryPoint;
+import com.winble.server.common.exception.authentication.handler.CustomAccessDeniedHandler;
+import com.winble.server.common.exception.authentication.handler.CustomAuthenticationEntryPoint;
 import com.winble.server.influencer.domain.enumeration.Role;
 import com.winble.server.common.jwt.JwtAuthenticationFilter;
 import com.winble.server.common.jwt.JwtTokenProvider;

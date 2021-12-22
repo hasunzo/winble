@@ -1,6 +1,6 @@
-package com.winble.server.exception;
+package com.winble.server.common.exception;
 
-import com.winble.server.exception.authentication.CAuthenticationEntryPointException;
+import com.winble.server.common.exception.authentication.CAuthenticationEntryPointException;
 import com.winble.server.common.response.CommonResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -20,7 +20,7 @@ public class ExceptionController {
     }
 
     @GetMapping(value = "/accessdenied")
-    public CommonResult accessdeniedException() {
+    public CommonResult accessDeniedException() {
         throw new AccessDeniedException("");
     }
 }

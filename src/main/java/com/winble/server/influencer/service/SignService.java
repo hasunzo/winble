@@ -1,7 +1,7 @@
 package com.winble.server.influencer.service;
 
-import com.winble.server.exception.influencer.CEmailLoginFailedException;
-import com.winble.server.exception.influencer.CInfluencerExistException;
+import com.winble.server.common.exception.BizException;
+import com.winble.server.common.exception.influencer.InfluencerCrudErrorCode;
 import com.winble.server.influencer.domain.Influencer;
 import com.winble.server.influencer.domain.enumeration.InfluencerStatus;
 import com.winble.server.influencer.domain.profile.BasicProfile;
@@ -41,11 +41,11 @@ public class SignService {
     public String login(InfluencerLoginRequest influencerLoginRequest) {
         // 이메일(loginId)로 회원을 찾는다.
         Influencer influencer = influencerRepository.findByLoginId(influencerLoginRequest.getLoginId()).
-                orElseThrow(CEmailLoginFailedException::new);
+                orElseThrow(() -> new BizException(InfluencerCrudErrorCode.EMAIL_LOGIN_FAILED));
 
         // 비밀번호가 일치하는 지 확인한다.
         if (!passwordEncoder.matches(influencerLoginRequest.getPassword(), influencer.getPassword())) {
-            throw new CEmailLoginFailedException();
+            throw new BizException(InfluencerCrudErrorCode.EMAIL_LOGIN_FAILED);
         }
 
         // 토큰을 발급한다.
@@ -103,7 +103,7 @@ public class SignService {
     public void isPresentUser(String loginId) {
         Optional<Influencer> influencer = influencerRepository.findByLoginId(loginId);
         if (influencer.isPresent()) {
-            throw new CInfluencerExistException();
+            throw new BizException(InfluencerCrudErrorCode.INFLUENCER_EXIST);
         }
     }
 }

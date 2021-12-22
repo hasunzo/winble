@@ -64,4 +64,5 @@ public class Influencer extends BaseTimeEntity {
 
     @Lob
     private String memo;
+
 }

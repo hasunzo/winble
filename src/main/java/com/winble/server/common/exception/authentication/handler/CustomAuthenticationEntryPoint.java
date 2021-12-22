@@ -1,4 +1,4 @@
-package com.winble.server.exception.authentication.handler;
+package com.winble.server.common.exception.authentication.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;

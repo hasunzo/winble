@@ -1,6 +1,7 @@
 package com.winble.server.influencer.service;
 
-import com.winble.server.exception.influencer.CInfluencerNotFoundException;
+import com.winble.server.common.exception.BizException;
+import com.winble.server.common.exception.influencer.InfluencerCrudErrorCode;
 import com.winble.server.influencer.domain.Influencer;
 import com.winble.server.influencer.repository.InfluencerRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class InfluencerService {
 
     // 회원 이메일로 회원 정보를 반환하는 메소드
     public Influencer findInfluencerByLoginId(String loginId) {
-        // Exception 발생시 CMemberNotFoundException 생성
-        return influencerRepository.findByLoginId(loginId).orElseThrow(CInfluencerNotFoundException::new);
+        return influencerRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new BizException(InfluencerCrudErrorCode.INFLUENCER_NOT_FOUND));
     }
 }
