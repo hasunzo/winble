@@ -3,9 +3,6 @@ package com.winble.server.influencer.web.rest;
 import com.winble.server.influencer.service.InfluencerService;
 import com.winble.server.influencer.web.rest.dto.response.InfluencerAllResponse;
 import com.winble.server.influencer.web.rest.dto.response.InfluencerResponse;
-import com.winble.server.common.response.service.ResponseService;
-import com.winble.server.common.response.ListResult;
-import com.winble.server.common.response.SingleResult;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +19,6 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/v1")
 public class InfluencerResource {
     private final InfluencerService influencerService;
-    private final ResponseService responseService;      // 결과 처리 Service
 
     // 토큰을 통해 전체 회원을 조회한다.
     // 토큰에 저장된 권한이 ADMIN 이어야 리소스 제공.
@@ -57,7 +53,4 @@ public class InfluencerResource {
 
         return ResponseEntity.ok(influencer);
     }
-
-    //TODO: 회원 수정, 회원 삭제
-
 }
