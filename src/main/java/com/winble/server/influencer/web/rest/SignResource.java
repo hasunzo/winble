@@ -4,9 +4,6 @@ import com.winble.server.influencer.service.SignService;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerJoinRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerLoginRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerSocialLoginRequest;
-import com.winble.server.common.response.service.ResponseService;
-import com.winble.server.common.response.CommonResult;
-import com.winble.server.common.response.SingleResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +25,6 @@ import javax.validation.Valid;
 @RequestMapping(value = "/v1")
 public class SignResource {
 
-    private final ResponseService responseService;    // 결과 처리 Service
     private final SignService signService;
 
 
@@ -44,16 +40,16 @@ public class SignResource {
     // 자사 서비스 회원가입시 필요한 필수 정보는 이메일, 비밀번호다.
     @ApiOperation(value = "회원가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signUp")
-    public CommonResult signUp(@Valid @RequestBody InfluencerJoinRequest influencerJoinRequest) {
+    public ResponseEntity<Void> signUp(@Valid @RequestBody InfluencerJoinRequest influencerJoinRequest) {
         signService.signUp(influencerJoinRequest);
-        return responseService.getSuccessResult();
+        return ResponseEntity.noContent().build();
     }
 
     // 소셜 서비스 로그인 혹은 회원가입
     @ApiOperation(value = "소셜 로그인 및 회원가입", notes = "소셜 계정으로 로그인 혹은 회원가입을 한다.")
     @PostMapping(value = "/login/{socialType}")
-    public SingleResult socialLoginAndSignUp(@Valid @RequestBody InfluencerSocialLoginRequest influencerSocialLoginRequest) {
-        return responseService.getSingleResult(signService.socialLoginAndSignUp(influencerSocialLoginRequest));
+    public ResponseEntity<String> socialLoginAndSignUp(@Valid @RequestBody InfluencerSocialLoginRequest influencerSocialLoginRequest) {
+        return ResponseEntity.ok(signService.socialLoginAndSignUp(influencerSocialLoginRequest));
     }
 
 }
