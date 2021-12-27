@@ -41,11 +41,14 @@ public class Influencer extends BaseTimeEntity {
     @OneToMany (mappedBy = "influencer", orphanRemoval = true, cascade = CascadeType.PERSIST)  // CascadeType.PERSIST (영속성 전이) : 부모 엔티티를 저장할 때 자식 엔티티도 함께 저장
     private List<Address> address;      // orphanRemoval = true (고아 객체) : 부모 엔티티와 연관관계가 끊어진 자식 엔티티를 자동으로 삭제하는 기능
 
+    @OneToMany(mappedBy = "influencer")
+    private List<InfluencerMedia> influencerMediaList = new ArrayList<InfluencerMedia>();   // 인플루언서의 미디어
+
     @ManyToMany     // @ManyToMany와 @JoinTable을 사용해서 연결 테이블로 바로 매핑한다.
     @JoinTable(name = "INFLUENCER_BLOGCATEGORY",
                 joinColumns = @JoinColumn(name = "INFLUENCER_ID"),
-                inverseJoinColumns = @JoinColumn(name = "BLOGCATEGORY_ID"))
-    private List<BlogCategory> blogCategories = new ArrayList<BlogCategory>();  // 인플루언서의 블로그 활동 주제들
+                inverseJoinColumns = @JoinColumn(name = "ACTIVITYTOPIC_ID"))
+    private List<ActivityTopic> blogCategories = new ArrayList<ActivityTopic>();  // 인플루언서의 블로그 활동 주제들
 
     @ManyToMany
     @JoinTable(name = "INFLUENCER_ACTIVITYAREA",
