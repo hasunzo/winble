@@ -1,5 +1,7 @@
 package com.winble.server.influencer.domain.profile;
 
+import com.winble.server.influencer.domain.enumeration.ConsentStatus;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -27,6 +29,8 @@ public class BasicProfile {
 
     private String picture;
 
+    private ConsentStatus maketingConsent;
+
     // 자사 서비스 회원가입시 picture는 default 값으로 등록된다.
     public BasicProfile(String nickName) {
         this(nickName, "default.png");
@@ -36,8 +40,27 @@ public class BasicProfile {
     public BasicProfile(String nickName, String picture) {
         this.nickName = nickName;
         this.picture = picture;
+        this.maketingConsent = ConsentStatus.N;
+    }
+
+    public BasicProfile(String name, String nickName, String phoneNumber, String maketingConsent) {
+        this.name = name;
+        this.nickName = nickName;
+        this.phoneNumber = phoneNumber;
+        this.maketingConsent = ConsentStatus.valueOf(maketingConsent);
     }
 
     public BasicProfile() {
+    }
+
+    public void update(BasicProfile basicProfile) {
+        this.name = basicProfile.name;
+        this.nickName = basicProfile.nickName;
+        this.phoneNumber = basicProfile.phoneNumber;
+        this.maketingConsent = basicProfile.maketingConsent;
+    }
+
+    public void pictureUpdate(String picture){
+        this.picture = picture;
     }
 }

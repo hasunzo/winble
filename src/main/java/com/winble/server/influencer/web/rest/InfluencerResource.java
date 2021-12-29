@@ -1,18 +1,22 @@
 package com.winble.server.influencer.web.rest;
 
 import com.winble.server.influencer.service.InfluencerService;
+import com.winble.server.influencer.web.rest.dto.request.InfluencerUpdateRequest;
 import com.winble.server.influencer.web.rest.dto.response.InfluencerAllResponse;
 import com.winble.server.influencer.web.rest.dto.response.InfluencerResponse;
+import com.winble.server.influencer.web.rest.dto.response.InfluencerUpdateResponse;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Api(tags = {"2. Influencer"})
 @RequiredArgsConstructor
 @RestController
@@ -27,9 +31,7 @@ public class InfluencerResource {
     })
     @ApiOperation(value = "회원 리스트 조회", notes = "모든 회원을 조회한다.")
     @GetMapping(value = "/influencers")
-    public ResponseEntity<List<InfluencerAllResponse>> findAllUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+    public ResponseEntity<List<InfluencerAllResponse>> findAllUser(Authentication authentication) {
         List<InfluencerAllResponse> influencerAllResponseList = influencerService.findAllInfluencer()
                 .stream()
                 .map(entity -> new InfluencerAllResponse(entity))
@@ -44,12 +46,24 @@ public class InfluencerResource {
     })
     @ApiOperation(value = "회원 단건 조회", notes = "토큰값으로 회원을 조회한다.")
     @GetMapping(value = "/influencer")
-    public ResponseEntity<InfluencerResponse> findMemberByEmail() {
-        // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+    public ResponseEntity<InfluencerResponse> findInfluencerByEmail(Authentication authentication) {
         InfluencerResponse influencer = new InfluencerResponse(
                 influencerService.findInfluencerByLoginId(authentication.getName()));
+
+        return ResponseEntity.ok(influencer);
+    }
+
+    // 인플루언서 기본 정보를 변경한다.
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "회원 기본정보 변경", notes = "인플루언서의 기본 정보를 변경합니다.")
+    @PatchMapping(value = "/influencer")
+    public ResponseEntity<InfluencerUpdateResponse> updateInfluencer(Authentication authentication,
+                                                                     @Valid @RequestBody InfluencerUpdateRequest influencerUpdateRequest) {
+        InfluencerUpdateResponse influencer = new InfluencerUpdateResponse(
+                influencerService.updateInfluencer(authentication.getName(), influencerUpdateRequest)
+        );
 
         return ResponseEntity.ok(influencer);
     }

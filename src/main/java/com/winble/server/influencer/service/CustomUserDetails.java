@@ -40,7 +40,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return String.valueOf(this.id);
     }
 
     @Override

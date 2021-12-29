@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ import java.util.Date;
  * jwt 토큰 생성 및 검증 모듈
  *
  */
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
@@ -61,7 +63,6 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, // principal
                 "", // credentials
                 userDetails.getAuthorities());  // autorities
-
     }
 
     // jwt 토큰에서 회원 구별 정보 추출
@@ -81,7 +82,10 @@ public class JwtTokenProvider {
     // jwt토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts
+                    .parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;

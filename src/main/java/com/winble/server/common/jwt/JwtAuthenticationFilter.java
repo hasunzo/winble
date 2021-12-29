@@ -1,5 +1,7 @@
 package com.winble.server.common.jwt;
 
+import com.winble.server.influencer.service.CustomUserDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -13,6 +15,7 @@ import java.io.IOException;
 
 // jwt가 유효한 토큰인지 인증하기 위한 Filter
 // 이 필터는 Security 설정 시 UsernamePasswordAuthenticationFilter앞에 세팅한다.
+@Slf4j
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private JwtTokenProvider jwtTokenProvider;

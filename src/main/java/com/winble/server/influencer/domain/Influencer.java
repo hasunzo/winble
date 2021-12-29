@@ -1,13 +1,16 @@
 package com.winble.server.influencer.domain;
 
+import com.winble.server.influencer.domain.enumeration.ConsentStatus;
 import com.winble.server.influencer.domain.enumeration.SignUpType;
 import com.winble.server.influencer.domain.enumeration.InfluencerStatus;
 import com.winble.server.influencer.domain.enumeration.Role;
 import com.winble.server.influencer.domain.profile.*;
+import com.winble.server.influencer.web.rest.dto.request.InfluencerUpdateRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,6 +20,7 @@ import java.util.List;
 @Builder
 @Entity
 @Getter
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 public class Influencer extends BaseTimeEntity {
@@ -30,7 +34,6 @@ public class Influencer extends BaseTimeEntity {
     private String loginId;
 
     private String password;
-    private String maketingConsent;
 
     @Embedded
     BasicProfile basicProfile;
@@ -67,5 +70,15 @@ public class Influencer extends BaseTimeEntity {
 
     @Lob
     private String memo;
+
+    public void updateBasicProfile(InfluencerUpdateRequest influencer) {
+        BasicProfile basicProfile = new BasicProfile(
+                influencer.getName(),
+                influencer.getNickName(),
+                influencer.getPhoneNumber(),
+                influencer.getMaketingConsent());
+
+        this.basicProfile.update(basicProfile);
+    }
 
 }

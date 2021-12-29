@@ -18,7 +18,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Influencer user = influencerRepository.findById(Long.valueOf(username)).orElseThrow(() -> new BizException(InfluencerCrudErrorCode.INFLUENCER_NOT_FOUND));
+        Influencer user = influencerRepository
+                .findById(Long.valueOf(username))
+                .orElseThrow(() -> new BizException(InfluencerCrudErrorCode.INFLUENCER_NOT_FOUND));
         return new CustomUserDetails(user);
     }
 }

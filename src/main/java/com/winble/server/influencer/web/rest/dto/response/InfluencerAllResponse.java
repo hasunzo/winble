@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+// 관리자가 보는 인플루언서 정보를 담은 dto
 @Getter
 public class InfluencerAllResponse {
     private Long id;
