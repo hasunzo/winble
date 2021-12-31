@@ -53,13 +53,6 @@ public class BasicProfile {
     public BasicProfile() {
     }
 
-    public void update(BasicProfile basicProfile) {
-        this.name = basicProfile.name;
-        this.nickName = basicProfile.nickName;
-        this.phoneNumber = basicProfile.phoneNumber;
-        this.maketingConsent = basicProfile.maketingConsent;
-    }
-
     public void pictureUpdate(String picture){
         this.picture = picture;
     }

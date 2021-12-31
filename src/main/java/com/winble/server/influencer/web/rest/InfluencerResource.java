@@ -1,7 +1,9 @@
 package com.winble.server.influencer.web.rest;
 
 import com.winble.server.influencer.service.InfluencerService;
+import com.winble.server.influencer.web.rest.dto.request.AddAddressRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerUpdateRequest;
+import com.winble.server.influencer.web.rest.dto.response.AddAddressResponse;
 import com.winble.server.influencer.web.rest.dto.response.InfluencerAllResponse;
 import com.winble.server.influencer.web.rest.dto.response.InfluencerResponse;
 import com.winble.server.influencer.web.rest.dto.response.InfluencerUpdateResponse;
@@ -66,5 +68,20 @@ public class InfluencerResource {
         );
 
         return ResponseEntity.ok(influencer);
+    }
+
+    // 인플루언서 주소를 추가한다.
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "인플루언서 주소 추가", notes = "인플루언서의 주소를 추가합니다.")
+    @PostMapping(value = "/influencer/address")
+    public ResponseEntity<AddAddressResponse> addAddress(Authentication authentication,
+                                                         @Valid @RequestBody AddAddressRequest addAddressARequest) {
+        AddAddressResponse address = new AddAddressResponse(
+                influencerService.addAddress(authentication.getName(), addAddressARequest)
+        );
+
+        return ResponseEntity.ok(address);
     }
 }

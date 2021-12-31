@@ -72,13 +72,7 @@ public class Influencer extends BaseTimeEntity {
     private String memo;
 
     public void updateBasicProfile(InfluencerUpdateRequest influencer) {
-        BasicProfile basicProfile = new BasicProfile(
-                influencer.getName(),
-                influencer.getNickName(),
-                influencer.getPhoneNumber(),
-                influencer.getMaketingConsent());
-
-        this.basicProfile.update(basicProfile);
+        this.basicProfile = influencer.toBasicProfile();
     }
 
 }
