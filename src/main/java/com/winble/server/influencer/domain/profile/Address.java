@@ -1,7 +1,6 @@
 package com.winble.server.influencer.domain.profile;
 
 import com.winble.server.influencer.domain.Influencer;
-import com.winble.server.influencer.web.rest.dto.request.AddAddressRequest;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,26 +13,32 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ADDRESS_ID")
-    private Long id;    // 주소 고유값
+    private Long id;                // 주소 고유값
 
-    private String zipCode; // 우편번호
-    private String state;   // 시도
-    private String city;    // 면읍구군시
-    private String detailAddress; // 세부주소
+    private String title;           // 배송지명
+    private String recipient;       // 수령인
+    private String zipCode;         // 우편번호
+    private String addressFirst;    // 상세주소
+    private String addressLast;     // 추가주소
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "INFLUENCER_ID")
     private Influencer influencer;  // 인플루언서 참조
 
     @Builder
-    public Address(String zipCode, String state, String city, String detailAddress, Influencer influencer) {
+    public Address(String title, String recipient, String zipCode, String addressFirst, String addressLast, Influencer influencer) {
+        this.title = title;
+        this.recipient = recipient;
         this.zipCode = zipCode;
-        this.state = state;
-        this.city = city;
-        this.detailAddress = detailAddress;
+        this.addressFirst = addressFirst;
+        this.addressLast = addressLast;
         if (Objects.nonNull(influencer)) {
             setInfluencer(influencer);
         }
+    }
+
+    public Address() {
+
     }
 
     public void setInfluencer(Influencer influencer) {

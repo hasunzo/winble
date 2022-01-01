@@ -5,15 +5,17 @@ import lombok.Getter;
 
 @Getter
 public class AddAddressResponse {
+    private String title;
+    private String recipient;
     private String zipCode;
-    private String state;
-    private String city;
-    private String detailAddress;
+    private String addressFirst;
+    private String addressLast;
 
     public AddAddressResponse(Address address) {
+        this.title = address.getTitle();
+        this.recipient = address.getRecipient();
         this.zipCode = address.getZipCode();
-        this.state = address.getState();
-        this.city = address.getCity();
-        this.detailAddress = address.getDetailAddress();
+        this.addressFirst = address.getAddressFirst();
+        this.addressLast = address.getAddressLast();
     }
 }
