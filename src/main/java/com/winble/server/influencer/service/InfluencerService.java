@@ -1,13 +1,14 @@
 package com.winble.server.influencer.service;
 
 import com.winble.server.common.exception.BizException;
+import com.winble.server.common.exception.influencer.AddressCrudErrorCode;
 import com.winble.server.common.exception.influencer.InfluencerCrudErrorCode;
 import com.winble.server.influencer.domain.Influencer;
 import com.winble.server.influencer.domain.profile.Address;
-import com.winble.server.influencer.domain.profile.BasicProfile;
 import com.winble.server.influencer.repository.AddressRepository;
 import com.winble.server.influencer.repository.InfluencerRepository;
-import com.winble.server.influencer.web.rest.dto.request.AddAddressRequest;
+import com.winble.server.influencer.web.rest.dto.request.AddressAddRequest;
+import com.winble.server.influencer.web.rest.dto.request.AddressUpdateRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,12 +48,24 @@ public class InfluencerService {
 
     // 인플루언서 주소 추가 메소드
     @Transactional
-    public Address addAddress(String influencerId, AddAddressRequest addressRequest) {
+    public Address addAddress(String influencerId, AddressAddRequest addressRequest) {
         Influencer influencer = influencerRepository.findById(Long.valueOf(influencerId))
                 .orElseThrow(() -> new BizException(InfluencerCrudErrorCode.INFLUENCER_NOT_FOUND));
 
         Address address = addressRequest.toAddress(influencer);
 
         return addressRepository.save(address);
+    }
+
+    public Address updateAddress(String influencerId, AddressUpdateRequest addressUpdateRequest) {
+        Influencer influencer = influencerRepository.findById(Long.valueOf(influencerId))
+                .orElseThrow(() -> new BizException(InfluencerCrudErrorCode.INFLUENCER_NOT_FOUND));
+
+        Address address = addressRepository.findByIdAndInfluencer(addressUpdateRequest.getId(), influencer)
+                .orElseThrow(() -> new BizException(AddressCrudErrorCode.ADDRESS_NOT_FOUND));
+
+        address.updateAddress(addressUpdateRequest);
+
+        return address;
     }
 }

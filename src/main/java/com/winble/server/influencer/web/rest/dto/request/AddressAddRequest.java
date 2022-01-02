@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @RequiredArgsConstructor
-public class AddAddressRequest {
+public class AddressAddRequest {
     @NotBlank(message = "배송지명을 입력해주세요.")
     @ApiModelProperty(value = "배송지명", required = true)
     private final String title;

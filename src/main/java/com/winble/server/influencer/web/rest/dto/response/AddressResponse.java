@@ -4,14 +4,14 @@ import com.winble.server.influencer.domain.profile.Address;
 import lombok.Getter;
 
 @Getter
-public class AddAddressResponse {
+public class AddressResponse {
     private String title;
     private String recipient;
     private String zipCode;
     private String addressFirst;
     private String addressLast;
 
-    public AddAddressResponse(Address address) {
+    public AddressResponse(Address address) {
         this.title = address.getTitle();
         this.recipient = address.getRecipient();
         this.zipCode = address.getZipCode();

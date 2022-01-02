@@ -1,12 +1,15 @@
 package com.winble.server.influencer.domain.profile;
 
 import com.winble.server.influencer.domain.Influencer;
+import com.winble.server.influencer.web.rest.dto.request.AddressUpdateRequest;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@NoArgsConstructor
 @Entity
 @Getter
 public class Address {
@@ -37,15 +40,19 @@ public class Address {
         }
     }
 
-    public Address() {
-
-    }
-
     public void setInfluencer(Influencer influencer) {
         if (Objects.nonNull(this.influencer)) {
             this.influencer.getAddress().remove(this);
         }
         this.influencer = influencer;
         influencer.getAddress().add(this);
+    }
+
+    public void updateAddress(AddressUpdateRequest request) {
+        this.title = request.getTitle();
+        this.recipient = request.getRecipient();
+        this.zipCode = request.getZipCode();
+        this.addressFirst = request.getAddressFirst();
+        this.addressLast = request.getAddressLast();
     }
 }

@@ -1,12 +1,10 @@
 package com.winble.server.influencer.web.rest;
 
 import com.winble.server.influencer.service.InfluencerService;
-import com.winble.server.influencer.web.rest.dto.request.AddAddressRequest;
+import com.winble.server.influencer.web.rest.dto.request.AddressAddRequest;
+import com.winble.server.influencer.web.rest.dto.request.AddressUpdateRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerUpdateRequest;
-import com.winble.server.influencer.web.rest.dto.response.AddAddressResponse;
-import com.winble.server.influencer.web.rest.dto.response.InfluencerAllResponse;
-import com.winble.server.influencer.web.rest.dto.response.InfluencerResponse;
-import com.winble.server.influencer.web.rest.dto.response.InfluencerUpdateResponse;
+import com.winble.server.influencer.web.rest.dto.response.*;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +34,7 @@ public class InfluencerResource {
     public ResponseEntity<List<InfluencerAllResponse>> findAllUser(Authentication authentication) {
         List<InfluencerAllResponse> influencerAllResponseList = influencerService.findAllInfluencer()
                 .stream()
-                .map(entity -> new InfluencerAllResponse(entity))
+                .map(InfluencerAllResponse::new)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(influencerAllResponseList);
@@ -76,10 +74,25 @@ public class InfluencerResource {
     })
     @ApiOperation(value = "인플루언서 주소 추가", notes = "인플루언서의 주소를 추가합니다.")
     @PostMapping(value = "/influencer/address")
-    public ResponseEntity<AddAddressResponse> addAddress(Authentication authentication,
-                                                         @Valid @RequestBody AddAddressRequest addAddressARequest) {
-        AddAddressResponse address = new AddAddressResponse(
-                influencerService.addAddress(authentication.getName(), addAddressARequest)
+    public ResponseEntity<AddressResponse> addAddress(Authentication authentication,
+                                                      @Valid @RequestBody AddressAddRequest addressAddRequest) {
+        AddressResponse address = new AddressResponse(
+                influencerService.addAddress(authentication.getName(), addressAddRequest)
+        );
+
+        return ResponseEntity.ok(address);
+    }
+
+    // 인플루언서 주소를 변경한다.
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "인플루언서 주소 변경", notes = "인플루언서의 주소를 추가합니다.")
+    @PatchMapping(value = "/influencer/address")
+    public ResponseEntity<AddressResponse> updateAddress(Authentication authentication,
+                                                               @Valid @RequestBody AddressUpdateRequest addressUpdateRequest) {
+        AddressResponse address = new AddressResponse(
+                influencerService.updateAddress(authentication.getName(), addressUpdateRequest)
         );
 
         return ResponseEntity.ok(address);
