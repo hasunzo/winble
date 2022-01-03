@@ -55,4 +55,8 @@ public class Address {
         this.addressFirst = request.getAddressFirst();
         this.addressLast = request.getAddressLast();
     }
+
+    public boolean isNotRegisteredBy(Influencer influencer) {
+        return !this.influencer.equals(influencer);
+    }
 }

@@ -90,11 +90,23 @@ public class InfluencerResource {
     @ApiOperation(value = "인플루언서 주소 변경", notes = "인플루언서의 주소를 추가합니다.")
     @PatchMapping(value = "/influencer/address")
     public ResponseEntity<AddressResponse> updateAddress(Authentication authentication,
-                                                               @Valid @RequestBody AddressUpdateRequest addressUpdateRequest) {
+                                                         @Valid @RequestBody AddressUpdateRequest addressUpdateRequest) {
         AddressResponse address = new AddressResponse(
                 influencerService.updateAddress(authentication.getName(), addressUpdateRequest)
         );
 
         return ResponseEntity.ok(address);
+    }
+
+    // 인플루언서 주소를 삭제한다.
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "인플루언서 주소 삭제", notes = "인플루언서의 주소를 삭제합니다.")
+    @DeleteMapping(value = "/influencer/address/{addressId}")
+    public ResponseEntity<Void> deleteAddress(Authentication authentication,
+                                              @PathVariable Long addressId) {
+        influencerService.deleteAddress(authentication.getName(), addressId);
+        return ResponseEntity.noContent().build();
     }
 }

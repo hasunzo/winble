@@ -1,6 +1,7 @@
 package com.winble.server.influencer.domain;
 
-import com.winble.server.influencer.domain.enumeration.ConsentStatus;
+import com.winble.server.common.exception.BizException;
+import com.winble.server.common.exception.influencer.AddressCrudErrorCode;
 import com.winble.server.influencer.domain.enumeration.SignUpType;
 import com.winble.server.influencer.domain.enumeration.InfluencerStatus;
 import com.winble.server.influencer.domain.enumeration.Role;
@@ -75,4 +76,11 @@ public class Influencer extends BaseTimeEntity {
         this.basicProfile = influencer.toBasicProfile();
     }
 
+    public void deleteAddress(Address address) {
+        if (address.isNotRegisteredBy(this)) {
+            throw new BizException(AddressCrudErrorCode.ADDRESS_NOT_BELONG_TO_INFLUENCER);
+        }
+
+        this.address.remove(address);
+    }
 }
