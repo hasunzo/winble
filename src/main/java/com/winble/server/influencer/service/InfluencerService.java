@@ -44,6 +44,13 @@ public class InfluencerService {
         return influencer;
     }
 
+    // 인플루언서 전체 주소 조회 메소드
+    @Transactional
+    public List<Address> findAllAddressByInfluencer(String influencerId) {
+        Influencer influencer = findInfluencer(influencerId);
+        return addressRepository.findAllByInfluencer(influencer);
+    }
+
     // 인플루언서 주소 추가 메소드
     @Transactional
     public Address addAddress(String influencerId, AddressAddRequest addressRequest) {

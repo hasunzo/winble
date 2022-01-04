@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class AddressResponse {
+    private Long id;
     private String title;
     private String recipient;
     private String zipCode;
@@ -12,6 +13,7 @@ public class AddressResponse {
     private String addressLast;
 
     public AddressResponse(Address address) {
+        this.id = address.getId();
         this.title = address.getTitle();
         this.recipient = address.getRecipient();
         this.zipCode = address.getZipCode();

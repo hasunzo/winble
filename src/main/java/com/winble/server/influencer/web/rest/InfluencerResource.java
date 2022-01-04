@@ -46,7 +46,7 @@ public class InfluencerResource {
     })
     @ApiOperation(value = "회원 단건 조회", notes = "토큰값으로 회원을 조회한다.")
     @GetMapping(value = "/influencer")
-    public ResponseEntity<InfluencerResponse> findInfluencerByEmail(Authentication authentication) {
+    public ResponseEntity<InfluencerResponse> findInfluencerById(Authentication authentication) {
         InfluencerResponse influencer = new InfluencerResponse(
                 influencerService.findInfluencerByLoginId(authentication.getName()));
 
@@ -66,6 +66,21 @@ public class InfluencerResource {
         );
 
         return ResponseEntity.ok(influencer);
+    }
+
+    // 인플루언서 전체 주소 리스트를 조회한다.
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "인플루언서 전체 주소 조회", notes = "인플루언서의 전체 주소 리스트를 조회합니다.")
+    @PatchMapping(value = "/influencer/addresses")
+    public ResponseEntity<List<AddressResponse>> findAllAddressByInfluencer(Authentication authentication) {
+        List<AddressResponse> addressList = influencerService.findAllAddressByInfluencer(authentication.getName())
+                .stream()
+                .map(AddressResponse::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(addressList);
     }
 
     // 인플루언서 주소를 추가한다.
