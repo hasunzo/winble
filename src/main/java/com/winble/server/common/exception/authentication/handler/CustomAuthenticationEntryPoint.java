@@ -1,5 +1,7 @@
 package com.winble.server.common.exception.authentication.handler;
 
+import com.winble.server.common.exception.BizException;
+import com.winble.server.common.exception.influencer.InfluencerAuthenticationErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -19,10 +21,8 @@ SpringSecurity 에서 제공하는 AuthenticationEntryPoint 를 상속받아 재
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    // 예외가 발생할 경우 /exception/entrypoint 로 포워딩되도록 처리
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        // ExceptionController
-        response.sendRedirect("/exception/entrypoint");
+        throw new BizException(InfluencerAuthenticationErrorCode.NOT_CERTIFIED);
     }
 }

@@ -4,7 +4,8 @@ import com.winble.server.common.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 
 public enum InfluencerAuthenticationErrorCode implements ErrorCode {
-    ACCESS_DENIED(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.value(), "해당 리소스에 접근하기 위한 권한이 없습니다.");
+    NOT_CERTIFIED(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.value(), "인증되지 않은 사용자입니다."),
+    NOT_GRANTED(HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.value(), "보유한 권한으로 접근할 수 없는 리소스 입니다.");
 
     private final HttpStatus httpStatus;
     private final int errorCode;

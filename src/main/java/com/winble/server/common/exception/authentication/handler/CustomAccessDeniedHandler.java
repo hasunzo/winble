@@ -1,5 +1,7 @@
 package com.winble.server.common.exception.authentication.handler;
 
+import com.winble.server.common.exception.BizException;
+import com.winble.server.common.exception.influencer.InfluencerAuthenticationErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -18,9 +20,8 @@ SpringSecurity 에서 제공하는 AccessDeniedHandler 를 상속받아 재정�
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
-    // 예외가 발생할 경우 /exception/accessdenied 로 포워딩되도록 처리
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.sendRedirect("/exception/accessdenied");
+        throw new BizException(InfluencerAuthenticationErrorCode.NOT_GRANTED);
     }
 }
