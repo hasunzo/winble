@@ -28,7 +28,6 @@ public class SignService {
     private final PasswordEncoder passwordEncoder;
     private final SocialService socialService;
 
-
     /**
      *
      * 자사 서비스 로그인
@@ -44,7 +43,7 @@ public class SignService {
                 orElseThrow(() -> new BizException(InfluencerCrudErrorCode.EMAIL_LOGIN_FAILED));
 
         // 비밀번호가 일치하는 지 확인한다.
-        if (!passwordEncoder.matches(influencerLoginRequest.getPassword(), influencer.getPassword())) {
+        if (!checkPassword(influencerLoginRequest.getPassword(), influencer.getPassword())) {
             throw new BizException(InfluencerCrudErrorCode.EMAIL_LOGIN_FAILED);
         }
 
@@ -105,5 +104,10 @@ public class SignService {
         if (influencer.isPresent()) {
             throw new BizException(InfluencerCrudErrorCode.INFLUENCER_EXIST);
         }
+    }
+
+    // 비밀번호 확인 메소드
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

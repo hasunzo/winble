@@ -4,6 +4,7 @@ import com.winble.server.influencer.service.InfluencerService;
 import com.winble.server.influencer.web.rest.dto.request.AddressAddRequest;
 import com.winble.server.influencer.web.rest.dto.request.AddressUpdateRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerUpdateRequest;
+import com.winble.server.influencer.web.rest.dto.request.PasswordUpdateRequest;
 import com.winble.server.influencer.web.rest.dto.response.*;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -122,6 +123,18 @@ public class InfluencerResource {
     public ResponseEntity<Void> deleteAddress(Authentication authentication,
                                               @PathVariable Long addressId) {
         influencerService.deleteAddress(authentication.getName(), addressId);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 인플루언서 비밀번호를 변경한다.
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
+    })
+    @ApiOperation(value = "인플루언서 비밀번호 변경", notes = "인플루언서의 비밀번호를 변경합니다.")
+    @PatchMapping(value = "/influencer/password")
+    public ResponseEntity<Void> updatePassword(Authentication authentication,
+                                               @Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
+        influencerService.updatePassword(authentication.getName(), passwordUpdateRequest);
         return ResponseEntity.noContent().build();
     }
 }

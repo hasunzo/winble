@@ -83,4 +83,8 @@ public class Influencer extends BaseTimeEntity {
 
         this.address.remove(address);
     }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

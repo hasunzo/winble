@@ -10,7 +10,9 @@ import com.winble.server.influencer.repository.InfluencerRepository;
 import com.winble.server.influencer.web.rest.dto.request.AddressAddRequest;
 import com.winble.server.influencer.web.rest.dto.request.AddressUpdateRequest;
 import com.winble.server.influencer.web.rest.dto.request.InfluencerUpdateRequest;
+import com.winble.server.influencer.web.rest.dto.request.PasswordUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ import java.util.List;
 public class InfluencerService {
     private final InfluencerRepository influencerRepository;
     private final AddressRepository addressRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 전체 인플루언서 회원 리스트를 반환하는 메소드
     public List<Influencer> findAllInfluencer() {
@@ -83,6 +86,16 @@ public class InfluencerService {
         addressRepository.delete(address);
     }
 
+    // 인플루언서 비밀번호 변경 메소드
+    @Transactional
+    public void updatePassword(String influencerId, PasswordUpdateRequest passwordUpdateRequest) {
+        Influencer influencer = findInfluencer(influencerId);
+        if (!checkPassword(passwordUpdateRequest.getCurrentPassword(), influencer.getPassword())) {
+            throw new BizException(InfluencerCrudErrorCode.NOT_MATCHED_PASSWORD);
+        }
+        influencer.updatePassword(passwordEncoder.encode(passwordUpdateRequest.getNewPassword()));
+    }
+
     // 인플루언서 반환
     public Influencer findInfluencer(String influencerId) {
         return influencerRepository.findById(Long.valueOf(influencerId))
@@ -93,6 +106,11 @@ public class InfluencerService {
     public Address findAddress(Long addressId) {
         return addressRepository.findById(addressId)
                 .orElseThrow(() -> new BizException(AddressCrudErrorCode.ADDRESS_NOT_FOUND));
+    }
+
+    // 비밀번호 확인 메소드
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
 }
