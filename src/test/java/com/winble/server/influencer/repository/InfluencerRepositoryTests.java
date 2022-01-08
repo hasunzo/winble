@@ -23,9 +23,6 @@ public class InfluencerRepositoryTests {
     @Autowired
     private InfluencerRepository influencerRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     private final InfluencerDummy influencerDummy = InfluencerDummy.getInstance();
 
     @BeforeEach
@@ -36,8 +33,13 @@ public class InfluencerRepositoryTests {
     @Test
     @DisplayName("회원의 로그인 아이디로 회원정보를 조회합니다.")
     public void findMembersByEmail() {
-        Influencer influencer = influencerRepository.findByLoginId(influencerDummy.getLoginId()).get();
-        assertThat(influencer.getBasicProfile().getNickName(), is(influencerDummy.getBasicProfile().getNickName()));
+        Influencer influencer = influencerRepository.findByLoginId(influencerDummy.getLoginId())
+                .orElseThrow(() -> new BizException(InfluencerCrudErrorCode.INFLUENCER_NOT_FOUND));
+
+        assertThat(influencer.getLoginId(), is(influencerDummy.getLoginId()));
+        assertThat(influencer.getSignUpType(), is(influencerDummy.getSignUpType()));
+        assertThat(influencer.getRole(), is(influencerDummy.getRole()));
+        assertThat(influencer.getStatus(), is(influencerDummy.getStatus()));
     }
 
     @Test

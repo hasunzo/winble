@@ -48,6 +48,14 @@ public class InfluencerDummy {
         return password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public InfluencerStatus getStatus() {
+        return status;
+    }
+
     public Influencer toEntity() {
         return Influencer.builder()
                 .loginId(loginId)
