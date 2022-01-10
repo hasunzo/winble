@@ -34,7 +34,8 @@ public class InfluencerService {
     // 회원 정보를 반환하는 메소드
     @Transactional
     public Influencer findInfluencerByLoginId(String influencerId) {
-        return findInfluencer(influencerId);
+        Influencer influencer = findInfluencer(influencerId);
+        return influencer;
     }
 
     // 인플루언서 기본정보 수정 메소드
@@ -112,5 +113,4 @@ public class InfluencerService {
     public boolean checkPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
-
 }

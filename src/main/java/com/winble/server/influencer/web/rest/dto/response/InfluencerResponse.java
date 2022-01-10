@@ -1,9 +1,12 @@
 package com.winble.server.influencer.web.rest.dto.response;
 
 import com.winble.server.influencer.domain.Influencer;
+import com.winble.server.influencer.domain.profile.Address;
 import com.winble.server.influencer.domain.profile.BasicProfile;
+import com.winble.server.influencer.domain.profile.InfluencerMedia;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Getter
 public class InfluencerResponse {
@@ -11,22 +14,18 @@ public class InfluencerResponse {
     private String signUpType;
     private String loginId;
 
-    private String maketingConsent;
-    private String name;
-    private String nickName;
-    private String picture;
-    private String phoneNumber;
+    private BasicProfile basicProfile;
+    private List<Address> addressList;
+    private List<InfluencerMedia> influencerMediaList;
 
     public InfluencerResponse(Influencer entity) {
         this.signUpType = entity.getSignUpType().name();
         this.loginId = entity.getLoginId();
 
         BasicProfile basicProfile = entity.getBasicProfile();
+        this.basicProfile = basicProfile;
 
-        this.maketingConsent = basicProfile.getMaketingConsent().name();
-        this.name = basicProfile.getName();
-        this.nickName = basicProfile.getNickName();
-        this.picture = basicProfile.getPicture();
-        this.phoneNumber = basicProfile.getPhoneNumber();
+        this.addressList = entity.getAddress();
+        this.influencerMediaList = entity.getInfluencerMediaList();
     }
 }

@@ -1,5 +1,6 @@
 package com.winble.server.influencer.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.winble.server.common.exception.BizException;
 import com.winble.server.common.exception.influencer.AddressCrudErrorCode;
 import com.winble.server.influencer.domain.enumeration.SignUpType;
@@ -42,8 +43,9 @@ public class Influencer extends BaseTimeEntity {
     @Embedded
     InfluencerInfo influencerInfo;
 
+    @JsonManagedReference
     @OneToMany (mappedBy = "influencer", orphanRemoval = true, cascade = CascadeType.PERSIST)  // CascadeType.PERSIST (영속성 전이) : 부모 엔티티를 저장할 때 자식 엔티티도 함께 저장
-    private List<Address> address;      // orphanRemoval = true (고아 객체) : 부모 엔티티와 연관관계가 끊어진 자식 엔티티를 자동으로 삭제하는 기능
+    private List<Address> address = new ArrayList<Address>();      // orphanRemoval = true (고아 객체) : 부모 엔티티와 연관관계가 끊어진 자식 엔티티를 자동으로 삭제하는 기능
 
     @OneToMany(mappedBy = "influencer")
     private List<InfluencerMedia> influencerMediaList = new ArrayList<InfluencerMedia>();   // 인플루언서의 미디어

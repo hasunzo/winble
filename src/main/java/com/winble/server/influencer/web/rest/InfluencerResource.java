@@ -41,12 +41,12 @@ public class InfluencerResource {
         return ResponseEntity.ok(influencerAllResponseList);
     }
 
-    // 토큰에 저장된 회원아이디로 회원 정보를 반환한다.
+    // 인플루언서 마이페이지의 기본 정보를 반환한다.
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
     })
     @ApiOperation(value = "회원 단건 조회", notes = "토큰값으로 회원을 조회한다.")
-    @GetMapping(value = "/influencer")
+    @GetMapping(value = "/mypage")
     public ResponseEntity<InfluencerResponse> findInfluencerById(Authentication authentication) {
         InfluencerResponse influencer = new InfluencerResponse(
                 influencerService.findInfluencerByLoginId(authentication.getName()));

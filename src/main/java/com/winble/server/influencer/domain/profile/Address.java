@@ -1,5 +1,6 @@
 package com.winble.server.influencer.domain.profile;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.winble.server.influencer.domain.Influencer;
 import com.winble.server.influencer.web.rest.dto.request.AddressUpdateRequest;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class Address {
     private String addressFirst;    // 상세주소
     private String addressLast;     // 추가주소
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "INFLUENCER_ID")
     private Influencer influencer;  // 인플루언서 참조
