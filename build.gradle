@@ -19,10 +19,10 @@ repositories {
 }
 
 dependencies {
-    //jpa
+    // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    //db
+    // db
     implementation 'org.mariadb.jdbc:mariadb-java-client'
 
     //security
@@ -34,21 +34,27 @@ dependencies {
     // Gson
     implementation 'com.google.code.gson:gson'
 
-    //web
+    // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    //swagger
-    implementation 'io.springfox:springfox-swagger2:2.6.1'
-    implementation "io.springfox:springfox-swagger-ui:2.6.1"
+    // swagger
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation "io.springfox:springfox-swagger-ui:2.9.2"
 
-    //lombok
+    // validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    //h2
+    // h2
     runtimeOnly 'com.h2database:h2'
 
-    //test
+    // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
